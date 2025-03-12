@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>0xDEADBEEF-GPU GO BRRRRRRRR</title>
+  <title>0xDEADBEEF. – Scroll Snap, Dark FAQ, and Technical Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Global Reset & Font */
@@ -67,7 +67,7 @@
     }
     nav a:hover { color: #007aff; }
     nav a.active { color: #005EE9; font-weight: 700; }
-    /* Minimal Dark Mode Toggle Button */
+    /* Dark Mode Toggle Button */
     #theme-toggle {
       background: transparent;
       border: 1px solid #262626;
@@ -91,7 +91,6 @@
       cursor: pointer;
       margin-right: 1rem;
     }
-    /* Mobile Navigation */
     @media (max-width: 768px) {
       nav {
         display: none;
@@ -104,13 +103,9 @@
         border-bottom: 1px solid #ddd;
         z-index: 999;
       }
-      nav.active {
-        display: flex;
-      }
-      .menu-toggle {
-        display: block;
-      }
-      /* Adjust Use Cases Table Text Size & Padding on Mobile */
+      nav.active { display: flex; }
+      .menu-toggle { display: block; }
+      /* Adjust Use Cases Table on Mobile */
       #use-cases .spiced-table th,
       #use-cases .spiced-table td {
         font-size: 0.75rem;
@@ -131,28 +126,25 @@
       padding: 3rem 2rem;
       border-top: 2px solid #ccc;
       position: relative;
-      overflow-y: auto; /* Internal scrolling when content exceeds viewport */
-      /* Ensure sections start fully opaque */
+      overflow-y: auto;
       opacity: 1;
     }
-    /* Remove top border on first section */
     #hero { border-top: none; }
-
     /* Background Colors */
     #hero {
       background: linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
         url("https://via.placeholder.com/1920x1080/eeeeee/333333?text=Light+Hero+Background")
         no-repeat center center / cover;
     }
-    #why-gpus    { background: #FAFAFA; }
-    #solution    { background: #F7F7F7; }
-    #nexter      { background: #F4F4F4; }
+    #why-gpus { background: #FAFAFA; }
+    #solution { background: #F7F7F7; }
+    #nexter { background: #F4F4F4; }
     #performance { background: #F1F1F1; }
-    #deep-tech   { background: #EEE; }
-    #overseer    { background: #EDEDED; }
-    #faq         { background: #232323; color: #f5f5f5; }
-    #use-cases   { background: #E8E8E8; }
-    #contact     { background: #E5E5E5; }
+    #deep-tech { background: #EEE; }
+    #overseer { background: #EDEDED; }
+    #faq { background: #232323; color: #f5f5f5; }
+    #use-cases { background: #E8E8E8; }
+    #contact { background: #E5E5E5; }
 
     /* FAQ Styling */
     #faq .section-title { color: #fff; }
@@ -205,8 +197,6 @@
       line-height: 1.6;
       transition: color 0.3s;
     }
-    
-    /* Emphasis styling for last sentences – light and subtle */
     .emphasis {
       font-size: 1.3rem;
       font-weight: 500;
@@ -220,9 +210,7 @@
       margin-bottom: 2rem;
       transition: transform 0.5s ease;
     }
-    .hero-logo:hover {
-      transform: rotate(360deg);
-    }
+    .hero-logo:hover { transform: rotate(360deg); }
     #hero .section-title { font-size: 3rem; margin-bottom: 1rem; }
     .cta-btn {
       display: inline-block;
@@ -236,11 +224,11 @@
       transition: background 0.3s;
     }
     .cta-btn:hover { background: #000; }
-
+    
     /* Highlight */
     .highlight { color: #005EE9; font-weight: 600; }
-
-    /* Next Section CTA Button */
+    
+    /* Next Section Button */
     .next-section {
       display: inline-block;
       margin-top: 2rem;
@@ -252,30 +240,19 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
-    .next-section:hover {
-      background: #005bb5;
-    }
-
-    /* Minimal Table Styling for Performance & Use Cases */
+    .next-section:hover { background: #005bb5; }
+    
+    /* Table Styling for Use Cases */
     table {
       width: 90%;
       margin: 1rem auto;
       border-collapse: collapse;
       font-size: 1rem;
     }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-    th, td {
-      padding: 0.5rem;
-      text-align: center;
-    }
-    /* Prevent unwanted line breaks in Use Cases table */
-    #use-cases table th, 
-    #use-cases table td {
-      white-space: nowrap;
-    }
-
+    table, th, td { border: 1px solid #ccc; }
+    th, td { padding: 0.5rem; text-align: center; }
+    #use-cases table th, #use-cases table td { white-space: nowrap; }
+    
     /* Footer */
     footer {
       text-align: center;
@@ -284,7 +261,7 @@
       border-top: 1px solid #ddd;
       font-size: 0.9rem;
     }
-
+    
     /* Dark Mode Overrides */
     .dark-mode header { background: #262626; }
     .dark-mode nav a { color: #FFFFFF; }
@@ -292,28 +269,24 @@
     .dark-mode .section-title { color: #FFFFFF; }
     .dark-mode .subtext { color: #898989; }
     .dark-mode footer { background: #262626; color: #FFFFFF; border-top: 1px solid #333; }
-    /* Apply dark background to all sections except FAQ */
     .dark-mode section:not(#faq) { background: #262626 !important; }
-    /* Make logos appear white in dark mode */
-    .dark-mode .company-info img,
-    .dark-mode .hero-logo {
+    .dark-mode .company-info img, .dark-mode .hero-logo {
       filter: brightness(0) invert(1);
     }
-    /* Dark mode toggle button styling */
     .dark-mode #theme-toggle {
       background: #FFFFFF;
       color: #262626;
       border-color: #FFFFFF;
     }
-
-    /* Simple Progress Indicator (on the left) */
+    
+    /* Progress Indicator */
     #progress-indicator {
       position: fixed;
       left: 0;
       top: 0;
       width: 4px;
       height: 100%;
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(0,0,0,0.1);
       z-index: 10000;
     }
     #progress-bar {
@@ -321,48 +294,28 @@
       height: 0;
       background: #007aff;
     }
-    /* For larger screens, adjust progress indicator dimensions */
     @media (min-width: 768px) {
       #progress-indicator {
         top: 20%;
-        height: 60vh; /* Reduced height for easier viewing */
+        height: 60vh;
         left: 20px;
       }
     }
-    /* Dark Mode Styling for Spiced Tables */
+    
+    /* Dark Mode Styling for Tables */
     .dark-mode .spiced-table {
-      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
     }
     .dark-mode .spiced-table thead th {
       background: #3b3b3b;
       color: #f5f5f5;
     }
-    .dark-mode .spiced-table tbody tr:nth-child(odd) {
-      background: #2a2a2a;
-    }
-    .dark-mode .spiced-table tbody tr:nth-child(even) {
-      background: #242424;
-    }
-    .dark-mode .spiced-table tbody tr:hover {
-      background: #3a3a3a;
-    }
+    .dark-mode .spiced-table tbody tr:nth-child(odd) { background: #2a2a2a; }
+    .dark-mode .spiced-table tbody tr:nth-child(even) { background: #242424; }
+    .dark-mode .spiced-table tbody tr:hover { background: #3a3a3a; }
     .dark-mode .spiced-table,
     .dark-mode .spiced-table th,
-    .dark-mode .spiced-table td {
-      border-color: #444;
-    }
-    .dark-mode nav {
-    background: #262626; /* Dark background for menu */
-    border-color: #444; /* Darker border to match theme */
-}
-
-.dark-mode nav a {
-    color: #fff;
-}
-
-.dark-mode .menu-toggle {
-    color: #ffffff;
-}
+    .dark-mode .spiced-table td { border-color: #444; }
   </style>
 </head>
 <body>
@@ -384,62 +337,56 @@
       <a href="#use-cases">Use Cases</a>
       <a href="#contact">Contact</a>
     </nav>
-    <button id="theme-toggle">Toggle Dark</button>
+    <label class="switch">
+  <input type="checkbox" id="theme-toggle">
+  <span class="slider"></span>
+</label>
   </header>
-
-  <!-- Simple Progress Indicator -->
+  
+  <!-- Progress Indicator -->
   <div id="progress-indicator">
     <div id="progress-bar"></div>
   </div>
-
+  
   <section id="hero">
     <img class="hero-logo" src="0xDEADBEEF_OFFICIAL_LOGO-01.svg" alt="0xDEADBEEF Hero Logo">
-    <div class="section-title">
-      Unleash Your GPU’s <span class="highlight">True Potential</span>
-    </div>
+    <div class="section-title">Unleash Your GPU’s <span class="highlight">True Potential</span></div>
     <div class="subtext">
       0xDEADBEEF revolutionizes how you use accelerated hardware. Say goodbye to underutilized pipelines, hello to seamless concurrency, and watch your workloads fly.
     </div>
     <a href="#why-gpus" class="next-section">Discover How</a>
   </section>
-
+  
   <section id="why-gpus">
-    <div class="section-title">
-      Your GPU wants a <span class="highlight">‘sweet spot’</span> of workload
-    </div>
+    <div class="section-title">Your GPU wants a <span class="highlight">‘sweet spot’</span> of workload</div>
     <div class="subtext">
-      <p>Run too many tasks, and it overheats and flounders. Too few, and it idles while deadlines burn. Thermal regulations, power constraints, and hidden inefficiencies all play a part.</p>
-      <p>Developers rarely know the gritty details of GPU pipeline saturation. Corporate policies often silo GPUs or limit concurrency, so real optimization never happens.</p>
+      <p>Run too many tasks, and it overheats and flounders. Too few, and it idles while deadlines burn.</p>
+      <p>Developers rarely know the gritty details of GPU pipeline saturation. Corporate policies often silo GPUs or limit concurrency.</p>
       <p>That’s why <strong>0xDEADBEEF</strong> sorts GPU optimizations into three must-haves: <em>Data locality</em>, <em>Pipeline saturation</em>, and <em>Kernel modification</em>.</p>
-      <p class="emphasis">Leveraging <strong>0x–DEADBEEF's suite of optimization software</strong> (short form: <span class="highlight">0x</span>) – you can fully harness your GPU’s potential.</p>
+      <p class="emphasis">Leveraging <strong>0x–DEADBEEF's suite</strong> (short: <span class="highlight">0x</span>) – you can fully harness your GPU’s potential.</p>
     </div>
     <a href="#solution" class="next-section">View Our Solution</a>
   </section>
-
+  
   <section id="solution">
     <img class="hero-logo" src="0xDB_logo_black_transparent.png" alt="0xDEADBEEF Suite Logo">
-    <div class="section-title">
-      0x Crushes <span class="highlight">Concurrency Slowdowns</span>
-    </div>
+    <div class="section-title">0x Crushes <span class="highlight">Concurrency Slowdowns</span></div>
     <div class="subtext">
-      <p><strong>0xDEADBEEF's suite of optimization software</strong> intercepts and optimizes low-level GPU calls—dynamically reordering memory allocation, compute scheduling, and synchronization. This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty.</p>
-      <p class="emphasis">In short, while traditional schedulers merely dispatch tasks, <br> <span class="highlight">0x</span> dives deep into hardware operations to deliver true concurrency.</p>
+      <p><strong>0xDEADBEEF's suite</strong> intercepts and optimizes low-level GPU calls—reordering memory, compute scheduling, and synchronization. This minimizes idle time and stalls.</p>
+      <p class="emphasis">Traditional schedulers merely dispatch tasks, while <span class="highlight">0x</span> dives deep into hardware to deliver true concurrency.</p>
     </div>
     <a href="#nexter" class="next-section">Discover 0xNEXTER</a>
   </section>
-
+  
   <section id="nexter">
-    <div class="section-title">
-      0xNEXTER: <br> Fine-Tuning <span class="highlight">Memory &amp; Resources</span>
-    </div>
+    <div class="section-title">0xNEXTER: <br> Fine-Tuning <span class="highlight">Memory &amp; Resources</span></div>
     <div class="subtext">
-      <p>By intercepting low-level GPU calls, <strong>0xNEXTER</strong> optimizes concurrency for better scheduling, pipeline saturation, and freed execution predicates to slot in additional kernels. <br> It dynamically reallocates resources to prevent idle cycles and ensure near-peak utilization.</p>
-      <p class="emphasis">0xNEXTER integrates seamlessly with job schedulers, <br> ensuring that each task gets just the right share of GPU resources.</p>
+      <p><strong>0xNEXTER</strong> optimizes GPU concurrency by better scheduling and dynamic resource reallocation to prevent idle cycles.</p>
+      <p class="emphasis">It integrates seamlessly with job schedulers so each task gets just the right share of resources.</p>
     </div>
     <a href="#performance" class="next-section">View Performance</a>
   </section>
-
-  <!-- Performance Section with Enhanced Table Style -->
+  
   <section id="performance">
     <style>
       .spiced-table {
@@ -447,7 +394,7 @@
         border-collapse: separate;
         border-spacing: 0;
         margin: 1rem 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       }
       .spiced-table thead th {
         background: #dce7f3;
@@ -458,131 +405,166 @@
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
       }
-      .spiced-table tbody tr {
-        transition: background 0.3s;
-      }
-      .spiced-table tbody tr:nth-child(odd) {
-        background: #f9f9f9;
-      }
-      .spiced-table tbody tr:nth-child(even) {
-        background: #f0f0f0;
-      }
-      .spiced-table tbody tr:hover {
-        background: #e0e7ee;
-      }
-      .spiced-table td {
-        padding: 0.75rem;
-      }
+      .spiced-table tbody tr { transition: background 0.3s; }
+      .spiced-table tbody tr:nth-child(odd) { background: #f9f9f9; }
+      .spiced-table tbody tr:nth-child(even) { background: #f0f0f0; }
+      .spiced-table tbody tr:hover { background: #e0e7ee; }
+      .spiced-table td { padding: 0.75rem; }
+/* Dark Mode Mobile Menu Fix */
+.dark-mode nav {
+  background-color: #262626;
+  border-bottom-color: #444;
+}
+.dark-mode nav a {
+  color: #FFFFFF;
+}
+.dark-mode .menu-toggle {
+  color: #FFFFFF;
+}
+
+/* Minimal Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  margin-left: 1rem;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #007aff;
+}
+
+input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+/* Dark mode mobile menu fix */
+.dark-mode nav {
+  background-color: #262626;
+  border-bottom-color: #444;
+}
+
+.dark-mode nav a {
+  color: #FFFFFF;
+}
+
     </style>
-    <div class="section-title">
-      We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span>
-    </div>
+    <div class="section-title">We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span></div>
     <div class="subtext">
       <table class="spiced-table">
         <thead>
-          <tr>
-            <th>Scenario</th>
-            <th>Time (s)</th>
-          </tr>
+          <tr><th>Scenario</th><th>Time (s)</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Without 0x</td>
-            <td>0.91</td>
-          </tr>
-          <tr>
-            <td>with 0x (Community Ver.)</td>
-            <td>0.82</td>
-          </tr>
-          <tr>
-            <td>with full 0xDEADBEEF's suite</td>
-            <td>0.78</td>
-          </tr>
+          <tr><td>Without 0x</td><td>0.91</td></tr>
+          <tr><td>with 0x (Community Ver.)</td><td>0.82</td></tr>
+          <tr><td>with full 0xDEADBEEF's suite</td><td>0.78</td></tr>
         </tbody>
       </table>
-      <p>That’s up to <span class="highlight">16.6%</span> raw speedup from concurrency alone.</p>
-      <p><strong>Training LLaMA:</strong> <br> Yields 28.5%–67.5% faster completion, even without specialized <strong>0xNEXTER</strong> code. For small GPU tasks, threads are “packed” for higher density—further boosting performance and reducing power usage by <span class="highlight">13.679%</span>–38.832%.</p>
-      <p class="emphasis"><strong>The Bottom Line:</strong> <br> High GPU utilization finally translates into <span class="highlight">real efficiency</span>.</p>
+      <p>That’s up to <span class="highlight">16.6%</span> raw speedup.</p>
+      <p><strong>Training LLaMA:</strong> Yields 28.5%–67.5% faster completion with improved efficiency.</p>
+      <p class="emphasis"><strong>The Bottom Line:</strong> High GPU utilization translates into <span class="highlight">real efficiency</span>.</p>
     </div>
     <a href="#deep-tech" class="next-section">Explore Deep Tech</a>
   </section>
-
+  
   <section id="deep-tech">
-    <div class="section-title">
-      GPUs Love a <span class="highlight">Goldilocks Load</span>: <br> Not Too Big, Not Too Small
-    </div>
+    <div class="section-title">GPUs Love a <span class="highlight">Goldilocks Load</span>: <br> Not Too Big, Not Too Small</div>
     <div class="subtext">
       <h3>GPU Thresholds &amp; Pipeline Quirks</h3>
-      <p>Many developers rarely address deep concurrency, leaving pipeline saturation a dream. While <strong>LLaMA</strong> uses CUDA for ~80% optimization, even the best kernels often run only 10/32 instructions per SM warp—limiting effective usage to around 30%.</p>
+      <p>Many kernels run only a fraction of their potential instructions, limiting effective usage.</p>
       <h3>AI Field &amp; Kernel Splicing</h3>
-      <p class="emphasis">Freed predicates and additional kernels are challenging to manage manually. That’s why advanced techniques are needed.</p>
+      <p class="emphasis">Freed predicates and additional kernels require advanced techniques to manage.</p>
     </div>
     <a href="#overseer" class="next-section">Discover 0xOVERSEER</a>
   </section>
-
+  
   <section id="overseer">
-    <div class="section-title">
-      0xOVERSEER: <br> Next-Generation <span class="highlight">Kernel Splicing</span>
-    </div>
+    <div class="section-title">0xOVERSEER: <br> Next-Generation <span class="highlight">Kernel Splicing</span></div>
     <div class="subtext">
-      <p><strong>0xOVERSEER</strong> is our cutting-edge solution that automatically performs <span class="highlight">kernel splicing</span> at the Python layer. By analyzing kernel behavior in real time, it dynamically fuses and reconfigures complementary operations to maximize GPU throughput.</p>
-      <p class="emphasis">With <strong>0xOVERSEER</strong>, manual kernel tuning becomes a thing of the past—unlocking performance gains through <span class="highlight">dynamic reconfiguration</span> and improved pipeline saturation.</p>
+      <p><strong>0xOVERSEER</strong> fuses and reconfigures GPU operations in real time for maximum throughput.</p>
+      <p class="emphasis">Manual kernel tuning is replaced by dynamic reconfiguration for improved saturation.</p>
     </div>
     <a href="#faq" class="next-section">Read FAQ</a>
   </section>
-
+  
   <section id="faq">
-    <div class="section-title">
-      FAQ on <span class="highlight">GPU Optimization</span>
-    </div>
+    <div class="section-title">FAQ on <span class="highlight">GPU Optimization</span></div>
     <div class="subtext">
       <details>
         <summary>Why don’t GPUs operate efficiently by default?</summary>
         <div class="faq-content">
-          <p>GPUs are built for parallel tasks with minimal global insight; they lack the dynamic reordering needed to optimize every operation. 0x provides that missing synergy.</p>
+          <p>GPUs are built for parallel tasks with minimal global insight; they lack dynamic reordering.</p>
         </div>
       </details>
       <details>
         <summary>Do you integrate with job schedulers?</summary>
         <div class="faq-content">
-          <p>Absolutely. Our software works seamlessly beneath existing job schedulers to optimize concurrency in real time.</p>
+          <p>Yes, our software works seamlessly under existing schedulers.</p>
         </div>
       </details>
       <details>
         <summary>What’s the difference between 0xNEXTER and a plain scheduler?</summary>
         <div class="faq-content">
-          <p>Traditional schedulers merely assign tasks to GPUs, whereas <strong>0xNEXTER</strong> orchestrates GPU resource allocation to prevent performance degradation.</p>
+          <p>0xNEXTER dynamically optimizes resource allocation, beyond simple task dispatch.</p>
         </div>
       </details>
       <details>
         <summary>Any perks beyond speed?</summary>
         <div class="faq-content">
-          <p>Definitely. Our software has demonstrated up to 38.832% energy savings and improved resource sharing across teams.</p>
+          <p>Our suite demonstrates significant energy savings and enhanced resource sharing.</p>
         </div>
       </details>
       <details>
         <summary>I already see 100% SM occupancy. Why do I need 0x?</summary>
         <div class="faq-content">
-          <p>High occupancy alone isn’t sufficient—true pipeline saturation drives efficiency. <strong>0xNEXTER</strong> dynamically optimizes resource allocation to ensure tasks complete faster.</p>
+          <p>High occupancy isn’t enough—true pipeline saturation is key.</p>
         </div>
       </details>
       <details>
         <summary>How do BFLOAT16, FP16, &amp; batch sizes factor in?</summary>
         <div class="faq-content">
-          <p>0x manages these parameters for maximum throughput, balancing precision with performance across varying workload sizes.</p>
+          <p>0x manages these for optimal precision and performance balance.</p>
         </div>
       </details>
       <details>
         <summary>Is MIG different from 0x's partitioning?</summary>
         <div class="faq-content">
-          <p>MIG statically slices a GPU. In contrast, 0x dynamically reassigns resources in real time, ensuring optimal concurrency without rigid partitioning.</p>
+          <p>MIG statically slices GPUs; 0x dynamically reassigns resources in real time.</p>
         </div>
       </details>
     </div>
     <a href="#use-cases" class="next-section">Explore Use Cases</a>
   </section>
-
-  <!-- Use Cases Section with Enhanced Table Colors -->
+  
   <section id="use-cases">
     <style>
       .spiced-table {
@@ -590,7 +572,7 @@
         border-collapse: separate;
         border-spacing: 0;
         margin: 1rem 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       }
       .spiced-table thead th {
         background: #dce7f3;
@@ -601,74 +583,42 @@
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
       }
-      .spiced-table tbody tr {
-        transition: background 0.3s;
-      }
-      .spiced-table tbody tr:nth-child(odd) {
-        background: #f9f9f9;
-      }
-      .spiced-table tbody tr:nth-child(even) {
-        background: #f0f0f0;
-      }
-      .spiced-table tbody tr:hover {
-        background: #e0e7ee;
-      }
-      .spiced-table td {
-        padding: 0.75rem;
-      }
+      .spiced-table tbody tr { transition: background 0.3s; }
+      .spiced-table tbody tr:nth-child(odd) { background: #f9f9f9; }
+      .spiced-table tbody tr:nth-child(even) { background: #f0f0f0; }
+      .spiced-table tbody tr:hover { background: #e0e7ee; }
+      .spiced-table td { padding: 0.75rem; }
     </style>
-    <div class="section-title">
-      Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
-    </div>
+    <div class="section-title">Wherever GPUs Matter, <span class="highlight">0x</span> Thrives</div>
     <div class="subtext">
       <table class="spiced-table">
         <thead>
-          <tr>
-            <th>Use Case</th>
-            <th>Details</th>
-          </tr>
+          <tr><th>Use Case</th><th>Details</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Machine Learning / AI</td>
-            <td>LLaMA training, large model concurrency, multi-tenant inference</td>
-          </tr>
-          <tr>
-            <td>Scientific Simulations</td>
-            <td>GROMACS, LAMMPS—heavy concurrency, big speedups</td>
-          </tr>
-          <tr>
-            <td>Financial Modeling</td>
-            <td>Real-time risk analysis, multiple concurrent queries</td>
-          </tr>
-          <tr>
-            <td>Data Analytics / Big Data</td>
-            <td>Matrix multiplications, ETL pipelines, concurrency optimization</td>
-          </tr>
-          <tr>
-            <td>Graphics &amp; Game Development</td>
-            <td>Real-time rendering tasks perfectly aligned with GPU pipelines</td>
-          </tr>
+          <tr><td>Machine Learning / AI</td><td>LLaMA training, large model concurrency, multi-tenant inference</td></tr>
+          <tr><td>Scientific Simulations</td><td>GROMACS, LAMMPS—heavy concurrency, big speedups</td></tr>
+          <tr><td>Financial Modeling</td><td>Real-time risk analysis, multiple concurrent queries</td></tr>
+          <tr><td>Data Analytics / Big Data</td><td>Matrix multiplications, ETL pipelines, concurrency optimization</td></tr>
+          <tr><td>Graphics &amp; Game Development</td><td>Real-time rendering tasks aligned with GPU pipelines</td></tr>
         </tbody>
       </table>
     </div>
     <a href="#contact" class="next-section">Contact Us</a>
   </section>
-
+  
   <section id="contact">
-    <div class="section-title">
-      Ready to Push Your GPU to the <span class="highlight">Limit</span>?
-    </div>
+    <div class="section-title">Ready to Push Your GPU to the <span class="highlight">Limit</span>?</div>
     <div class="subtext">
       <p>Drop us a line, request a customized demo, or just say hello.</p>
       <p>Email: <a href="mailto:anton@dead-beef.com">anton@dead-beef.com</a></p>
     </div>
   </section>
-
+  
   <footer>
     &copy; 2025 <strong>0xDEADBEEF</strong>. All rights reserved.
   </footer>
-
+  
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // IntersectionObserver for active nav highlighting
@@ -685,44 +635,41 @@
         });
       }, observerOptions);
       sections.forEach(section => observer.observe(section));
-
+      
       // Logo click: Scroll to top
       const logo = document.querySelector('.company-info img');
       logo.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
-
+      
       // Dark Mode Toggle
-      const themeToggle = document.getElementById('theme-toggle');
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+      document.getElementById('theme-toggle').addEventListener('change', function() {
+  document.body.classList.toggle('dark-mode', this.checked);
       });
-
-      // Mobile Menu Toggle
-      const menuToggle = document.querySelector('.menu-toggle');
-      const nav = document.querySelector('nav');
-      menuToggle.addEventListener('click', () => {
-        nav.classList.toggle('active');
+      
+	// Mobile menu toggle (ensure this exists)
+	document.querySelector('.menu-toggle').addEventListener('click', () => {
+  	document.querySelector('nav').classList.toggle('active');
       });
-
-      // Staggered Fade-In on Internal Link Click (applies to both header nav and section buttons)
+      
+      // Apply fade-in and smooth scroll for internal links (both header and section buttons)
       document.querySelectorAll('header nav a, a.next-section').forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const targetId = link.getAttribute('href');
           const targetSection = document.querySelector(targetId);
           
-          // Only reset and fade in children for the target section.
+          // Reset only the target section’s children opacity
           const children = targetSection.children;
           Array.from(children).forEach(child => {
             child.style.opacity = 0;
-            child.style.transition = ''; 
+            child.style.transition = '';
           });
           
-          // Smooth scroll to the target section
+          // Smooth scroll to target section
           targetSection.scrollIntoView({ behavior: 'smooth' });
           
-          // Wait until the section is in view before starting the staggered fade in
+          // After a delay, stagger the fade-in of the target section’s children
           setTimeout(() => {
             for (let i = 0; i < children.length; i++) {
               children[i].style.transition = `opacity 0.8s ease-in-out ${i * 100}ms`;
@@ -731,8 +678,8 @@
           }, 600);
         });
       });
-
-      // Progress Bar Update on Scroll
+      
+      // Update progress bar on scroll
       window.addEventListener('scroll', () => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
