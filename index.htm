@@ -38,7 +38,7 @@
       gap: 1rem;
       margin-right: auto;
     }
-    .company-info img { height: 40px; width: auto; }
+    .company-info img { height: 40px; width: auto; cursor: pointer; }
     .company-name { font-weight: 600; font-size: 1.2rem; color: #262626; }
     nav {
       display: flex;
@@ -54,6 +54,21 @@
     }
     nav a:hover { color: #007aff; }
     nav a.active { color: #005EE9; font-weight: 700; }
+
+    /* Theme Toggle Button */
+    #theme-toggle {
+      background: transparent;
+      border: 1px solid #262626;
+      color: #262626;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      border-radius: 0.3rem;
+    }
+    #theme-toggle:hover {
+      background: #262626;
+      color: #fff;
+    }
 
     /* Sections */
     section {
@@ -164,6 +179,36 @@
       border-top: 1px solid #ddd;
       font-size: 0.9rem;
     }
+
+    /* Fun Logo Spin Animation */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .logo-spin {
+      animation: spin 1s ease-in-out;
+    }
+
+    /* Dark Mode Styles */
+    .dark-mode {
+      background: #121212;
+      color: #e0e0e0;
+    }
+    .dark-mode header {
+      background: #1e1e1e;
+      border-bottom: 1px solid #333;
+    }
+    .dark-mode .company-name,
+    .dark-mode nav a,
+    .dark-mode #theme-toggle {
+      color: #e0e0e0;
+      border-color: #e0e0e0;
+    }
+    .dark-mode footer {
+      background: #1e1e1e;
+      border-top: 1px solid #333;
+      color: #e0e0e0;
+    }
   </style>
 </head>
 <body>
@@ -184,6 +229,7 @@
       <a href="#use-cases">Use Cases</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button id="theme-toggle">Toggle Theme</button>
   </header>
 
   <section id="hero">
@@ -215,7 +261,7 @@
     </div>
     <div class="subtext">
       <p><strong>0xDEADBEEF's suite of optimization software</strong> intercepts and optimizes low-level GPU calls—dynamically reordering memory allocation, compute scheduling, and synchronization. This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty.</p>
-      <p>In short, while traditional schedulers merely dispatch tasks, <br> <span class="highlight"> 0x</span> dives deep into hardware operations to deliver true concurrency.</p>
+      <p>In short, while traditional schedulers merely dispatch tasks, <br> <span class="highlight">0x</span> dives deep into hardware operations to deliver true concurrency.</p>
     </div>
   </section>
 
@@ -271,93 +317,4 @@
       <details>
         <summary>Why don’t GPUs operate efficiently by default?</summary>
         <div class="faq-content">
-          <p>GPUs are built for parallel tasks with minimal global insight; they lack the dynamic reordering needed to optimize every operation. 0x provides that missing synergy.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Do you integrate with job schedulers?</summary>
-        <div class="faq-content">
-          <p>Absolutely. Our software works seamlessly beneath existing job schedulers to optimize concurrency in real time.</p>
-        </div>
-      </details>
-      <details>
-        <summary>What’s the difference between 0xNEXTER and a plain scheduler?</summary>
-        <div class="faq-content">
-          <p>Traditional schedulers merely assign tasks to GPUs, whereas <strong>0xNEXTER</strong> orchestrates GPU resource allocation to prevent performance degradation.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Any perks beyond speed?</summary>
-        <div class="faq-content">
-          <p>Definitely. Our software has demonstrated up to 38.832% energy savings and improved resource sharing across teams.</p>
-        </div>
-      </details>
-      <details>
-        <summary>I already see 100% SM occupancy. Why do I need 0x?</summary>
-        <div class="faq-content">
-          <p>High occupancy alone isn’t sufficient—true pipeline saturation drives efficiency. <strong>0xNEXTER</strong> dynamically optimizes resource allocation to ensure tasks complete faster.</p>
-        </div>
-      </details>
-      <details>
-        <summary>How do BFLOAT16, FP16, &amp; batch sizes factor in?</summary>
-        <div class="faq-content">
-          <p>0x manages these parameters for maximum throughput, balancing precision with performance across varying workload sizes.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Is MIG different from 0x's partitioning?</summary>
-        <div class="faq-content">
-          <p>MIG statically slices a GPU. In contrast, 0x dynamically reassigns resources in real time, ensuring optimal concurrency without rigid partitioning.</p>
-        </div>
-      </details>
-    </div>
-  </section>
-
-  <section id="use-cases">
-    <div class="section-title">
-      Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
-    </div>
-    <div class="subtext">
-      <ul>
-        <li><strong>Machine Learning / AI:</strong><br> LLaMA training, large model concurrency, multi-tenant inference</li>
-        <li><strong>Scientific Simulations:</strong><br> GROMACS, LAMMPS—heavy concurrency, big speedups</li>
-        <li><strong>Financial Modeling:</strong><br> Real-time risk analysis, multiple concurrent queries</li>
-        <li><strong>Data Analytics / Big Data:</strong><br> Matrix multiplications, ETL pipelines, concurrency optimization</li>
-        <li><strong>Graphics &amp; Game Development:</strong><br> Real-time rendering tasks perfectly aligned with GPU pipelines</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="section-title">
-      Ready to Push Your GPU to the <span class="highlight">Limit</span>?
-    </div>
-    <div class="subtext">
-      <p>Drop us a line, request a customized demo, or just say hello.</p>
-      <p>Email: <a href="mailto:anton@dead-beef.com">anton@dead-beef.com</a></p>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 <strong>0xDEADBEEF</strong>. All rights reserved.
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('header nav a');
-      const options = { root: null, rootMargin: '0px', threshold: 0.5 };
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            const currentLink = document.querySelector(`header nav a[href="#${entry.target.id}"]`);
-            if (currentLink) currentLink.classList.add('active');
-          }
-        });
-      }, options);
-      sections.forEach(section => observer.observe(section));
-    });
-  </script>
-</body>
-</html>
+          <p>GPUs are built for parallel tasks with minimal global insight; they lack the dynamic reordering needed to optimize every operation. 0x provides that missing
