@@ -412,14 +412,14 @@ html {
     <img class="hero-logo" src="0xDB_logo_black_transparent.png" alt="0xDEADBEEF Suite Logo">
     <div class="section-title">0x Crushes <span class="highlight">Concurrency Slowdowns</span></div>
     <div class="subtext">
-      <p><strong>0xDEADBEEF's suite</strong> intercepts and optimizes low-level GPU calls—reordering memory, compute scheduling, and synchronization. This minimizes idle time and stalls.</p>
+      <p><strong>0x suite</strong> intercepts and optimizes low-level GPU calls—dynamically optimizing memory allocation, compute scheduling, and synchronization. This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty.</p>
       <p class="emphasis">Traditional schedulers merely dispatch tasks, while <span class="highlight">0x</span> dives deep into hardware to deliver true concurrency.</p>
     </div>
     <a href="#nexter" class="next-section">Discover 0xNEXTER</a>
   </section>
   
   <section id="nexter">
-    <div class="section-title">0xNEXTER: <br> Fine-Tuning <span class="highlight">Memory &amp; Resources</span></div>
+    <div class="section-title">0xNEXTER: <br> Fine Tuning <span class="highlight">Memory &amp; Resources</span></div>
     <div class="subtext">
       <p><strong>0xNEXTER</strong> optimizes GPU concurrency by better scheduling and dynamic resource reallocation to prevent idle cycles.</p>
       <p class="emphasis">It integrates seamlessly with job schedulers so each task gets just the right share of resources.</p>
@@ -568,37 +568,31 @@ input:checked + .slider::before {
       <details>
         <summary>Do you integrate with job schedulers?</summary>
         <div class="faq-content">
-          <p>Yes, our software works seamlessly under existing schedulers.</p>
+          <p>Yes, we integrate with job schedulers. We first support Kubernetes.</p>
         </div>
       </details>
       <details>
         <summary>What’s the difference between 0xNEXTER and a plain scheduler?</summary>
         <div class="faq-content">
-          <p>0xNEXTER dynamically optimizes resource allocation, beyond simple task dispatch.</p>
+          <p>0xNEXTER does not schedule tasks. It enables optimizations in the kernel space that speed up GPU kernels execution; in short the optimizations reduce latency of arithmetic and memory operations. 0xNexter also enables various capabilities for granular resource management.</p>
         </div>
       </details>
       <details>
         <summary>Any perks beyond speed?</summary>
         <div class="faq-content">
-          <p>Our suite demonstrates significant energy savings and enhanced resource sharing.</p>
+          <p>The solution enables the ability to manage thermal and power at the instruction level.</p>
         </div>
       </details>
       <details>
         <summary>I already see 100% SM occupancy. Why do I need 0x?</summary>
         <div class="faq-content">
-          <p>High occupancy isn’t enough—true pipeline saturation is key.</p>
-        </div>
-      </details>
-      <details>
-        <summary>How do BFLOAT16, FP16, &amp; batch sizes factor in?</summary>
-        <div class="faq-content">
-          <p>0x manages these for optimal precision and performance balance.</p>
+          <p>High occupancy alone isn’t sufficient—true pipeline saturation drives efficiency. 0xNEXTER dynamically optimizes resource allocation to ensure tasks complete faster.</p>
         </div>
       </details>
       <details>
         <summary>Is MIG different from 0x's partitioning?</summary>
         <div class="faq-content">
-          <p>MIG statically slices GPUs; 0x dynamically reassigns resources in real time.</p>
+          <p>MIG statically slices a GPU. In contrast, 0x allows dynamic reassignment of resources in real-time, and the ability to arbitrarily set compute resources and memory resources to tasks to craft the perfect compute environments for memory and compute bound tasks. This ensures optimal concurrency without rigid partitioning.</p>
         </div>
       </details>
     </div>
