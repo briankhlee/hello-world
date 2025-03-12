@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>0xDEADBEEF. – Scroll Snap, Dark FAQ, and Technical Details</title>
+  <title>0xDEADBEEF–GPU GO BRRRRRR</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Global Reset & Font */
@@ -17,8 +17,13 @@
       scroll-behavior: smooth;
     }
     body { padding-top: 70px; }
-    html { scroll-snap-type: y mandatory; overflow-y: scroll; }
-
+    html { scroll-snap-type: y mandatory; overflow-y: scroll; 
+	 }
+@media (min-width: 769px) {
+  html {
+    scroll-snap-type: y mandatory;
+  }
+}
     /* Header */
     header {
       position: fixed;
