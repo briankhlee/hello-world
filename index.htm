@@ -124,6 +124,7 @@
       text-align: center;
       padding: 3rem 2rem;
       border-top: 2px solid #ccc;
+      position: relative;
     }
     /* Remove top border on first section */
     #hero { border-top: none; }
@@ -165,7 +166,6 @@
       background: #2e2e2e;
     }
     #faq summary::-webkit-details-marker { display: none; }
-    /* Updated FAQ animation: animate max-height */
     .faq-content {
       max-height: 0;
       overflow: hidden;
@@ -230,6 +230,22 @@
 
     /* Highlight */
     .highlight { color: #005EE9; font-weight: 600; }
+
+    /* Next Section CTA Button */
+    .next-section {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.5rem 1rem;
+      background: #007aff;
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    .next-section:hover {
+      background: #005bb5;
+    }
 
     /* Minimal Table Styling for Performance & Use Cases */
     table {
@@ -341,7 +357,7 @@
     <div class="subtext">
       0xDEADBEEF revolutionizes how you use accelerated hardware. Say goodbye to underutilized pipelines, hello to seamless concurrency, and watch your workloads fly.
     </div>
-    <a href="#solution" class="cta-btn">Learn More</a>
+    <a href="#why-gpus" class="next-section">Discover How</a>
   </section>
 
   <section id="why-gpus">
@@ -354,6 +370,7 @@
       <p>That’s why <strong>0xDEADBEEF</strong> sorts GPU optimizations into three must-haves: <em>Data locality</em>, <em>Pipeline saturation</em>, and <em>Kernel modification</em>.</p>
       <p class="emphasis">Leveraging <strong>0x–DEADBEEF's suite of optimization software</strong> (short form: <span class="highlight">0x</span>) – you can fully harness your GPU’s potential.</p>
     </div>
+    <a href="#solution" class="next-section">View Our Solution</a>
   </section>
 
   <section id="solution">
@@ -365,55 +382,91 @@
       <p><strong>0xDEADBEEF's suite of optimization software</strong> intercepts and optimizes low-level GPU calls—dynamically reordering memory allocation, compute scheduling, and synchronization. This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty.</p>
       <p class="emphasis">In short, while traditional schedulers merely dispatch tasks, <br> <span class="highlight">0x</span> dives deep into hardware operations to deliver true concurrency.</p>
     </div>
+    <a href="#nexter" class="next-section">Discover 0xNEXTER</a>
   </section>
 
   <section id="nexter">
     <div class="section-title">
-      0xNEXTER: Fine-Tuning <span class="highlight">Memory &amp; Resources</span>
+      0xNEXTER: <br> Fine-Tuning <span class="highlight">Memory &amp; Resources</span>
     </div>
     <div class="subtext">
       <p>By intercepting low-level GPU calls, <strong>0xNEXTER</strong> optimizes concurrency for better scheduling, pipeline saturation, and freed execution predicates to slot in additional kernels. <br> It dynamically reallocates resources to prevent idle cycles and ensure near-peak utilization.</p>
       <p class="emphasis">0xNEXTER integrates seamlessly with job schedulers, <br> ensuring that each task gets just the right share of GPU resources.</p>
     </div>
+    <a href="#performance" class="next-section">View Performance</a>
   </section>
 
-  <section id="performance">
-    <div class="section-title">
-      We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span>
-    </div>
-    <div class="subtext">
-      <!-- Performance Table for Matrix Math -->
-      <table>
-        <thead>
-          <tr>
-            <th>Scenario</th>
-            <th>Time (s)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Without 0x</td>
-            <td>0.91</td>
-          </tr>
-          <tr>
-            <td>with 0x (Community Ver.)</td>
-            <td>0.82</td>
-          </tr>
-          <tr>
-            <td>with full 0xDEADBEEF's suite</td>
-            <td>0.78</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>That’s up to <span class="highlight">16.6%</span> raw speedup from concurrency alone.</p>
-      <p><strong>Training LLaMA:</strong> <br> Yields 28.5%–67.5% faster completion, even without specialized <strong>0xNEXTER</strong> code. For small GPU tasks, threads are “packed” for higher density—further boosting performance and reducing power usage by <span class="highlight">13.679%</span>–38.832%.</p>
-      <p class="emphasis"><strong>The Bottom Line:</strong> <br> High GPU utilization finally translates into <span class="highlight">real efficiency</span>.</p>
-    </div>
-  </section>
+ <!-- Performance Section with Enhanced Table Style -->
+<section id="performance">
+  <style>
+    .spiced-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1rem 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .spiced-table thead th {
+      background: #dce7f3; /* Subtle light blue for a minimal look */
+      color: #262626;
+      padding: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+    .spiced-table tbody tr {
+      transition: background 0.3s;
+    }
+    .spiced-table tbody tr:nth-child(odd) {
+      background: #f9f9f9;
+    }
+    .spiced-table tbody tr:nth-child(even) {
+      background: #f0f0f0;
+    }
+    .spiced-table tbody tr:hover {
+      background: #e0e7ee;
+    }
+    .spiced-table td {
+      padding: 0.75rem;
+    }
+  </style>
+  <div class="section-title">
+    We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span>
+  </div>
+  <div class="subtext">
+    <table class="spiced-table">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Time (s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Without 0x</td>
+          <td>0.91</td>
+        </tr>
+        <tr>
+          <td>with 0x (Community Ver.)</td>
+          <td>0.82</td>
+        </tr>
+        <tr>
+          <td>with full 0xDEADBEEF's suite</td>
+          <td>0.78</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>That’s up to <span class="highlight">16.6%</span> raw speedup from concurrency alone.</p>
+    <p><strong>Training LLaMA:</strong> <br> Yields 28.5%–67.5% faster completion, even without specialized <strong>0xNEXTER</strong> code. For small GPU tasks, threads are “packed” for higher density—further boosting performance and reducing power usage by <span class="highlight">13.679%</span>–38.832%.</p>
+    <p class="emphasis"><strong>The Bottom Line:</strong> <br> High GPU utilization finally translates into <span class="highlight">real efficiency</span>.</p>
+  </div>
+  <a href="#deep-tech" class="next-section">Explore Deep Tech</a>
+</section>
 
   <section id="deep-tech">
     <div class="section-title">
-      GPUs Love a <span class="highlight">Goldilocks Load</span>: Not Too Big, Not Too Small
+      GPUs Love a <span class="highlight">Goldilocks Load</span>: <br> Not Too Big, Not Too Small
     </div>
     <div class="subtext">
       <h3>GPU Thresholds &amp; Pipeline Quirks</h3>
@@ -421,16 +474,18 @@
       <h3>AI Field &amp; Kernel Splicing</h3>
       <p class="emphasis">Freed predicates and additional kernels are challenging to manage manually. That’s why advanced techniques are needed.</p>
     </div>
+    <a href="#overseer" class="next-section">Discover 0xOVERSEER</a>
   </section>
 
   <section id="overseer">
     <div class="section-title">
-      0xOVERSEER: Next-Generation <span class="highlight">Kernel Splicing</span>
+      0xOVERSEER: <br> Next-Generation <span class="highlight">Kernel Splicing</span>
     </div>
     <div class="subtext">
-      <p><strong>0xOVERSEER</strong> is our cutting-edge solution that automatically performs <span class="highlight">kernel splicing</span> at the Python layer. By analyzing kernel behavior in real-time, it dynamically fuses and reconfigures complementary operations to maximize GPU throughput.</p>
+      <p><strong>0xOVERSEER</strong> is our cutting-edge solution that automatically performs <span class="highlight">kernel splicing</span> at the Python layer. By analyzing kernel behavior in real time, it dynamically fuses and reconfigures complementary operations to maximize GPU throughput.</p>
       <p class="emphasis">With <strong>0xOVERSEER</strong>, manual kernel tuning becomes a thing of the past—unlocking performance gains through <span class="highlight">dynamic reconfiguration</span> and improved pipeline saturation.</p>
     </div>
+    <a href="#faq" class="next-section">Read FAQ</a>
   </section>
 
   <section id="faq">
@@ -481,46 +536,82 @@
         </div>
       </details>
     </div>
+    <a href="#use-cases" class="next-section">Explore Use Cases</a>
   </section>
 
-  <section id="use-cases">
-    <div class="section-title">
-      Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
-    </div>
-    <div class="subtext">
-      <!-- Use Cases Table -->
-      <table>
-        <thead>
-          <tr>
-            <th>Use Case</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Machine Learning / AI</td>
-            <td>LLaMA training, large model concurrency, multi-tenant inference</td>
-          </tr>
-          <tr>
-            <td>Scientific Simulations</td>
-            <td>GROMACS, LAMMPS—heavy concurrency, big speedups</td>
-          </tr>
-          <tr>
-            <td>Financial Modeling</td>
-            <td>Real-time risk analysis, multiple concurrent queries</td>
-          </tr>
-          <tr>
-            <td>Data Analytics / Big Data</td>
-            <td>Matrix multiplications, ETL pipelines, concurrency optimization</td>
-          </tr>
-          <tr>
-            <td>Graphics &amp; Game Development</td>
-            <td>Real-time rendering tasks perfectly aligned with GPU pipelines</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+<!-- Use Cases Section with Enhanced Table Colors -->
+<section id="use-cases">
+  <style>
+    .spiced-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1rem 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .spiced-table thead th {
+      background: #dce7f3; /* Subtle light blue header */
+      color: #262626;
+      padding: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+    .spiced-table tbody tr {
+      transition: background 0.3s;
+    }
+    .spiced-table tbody tr:nth-child(odd) {
+      background: #f9f9f9;
+    }
+    .spiced-table tbody tr:nth-child(even) {
+      background: #f0f0f0;
+    }
+    .spiced-table tbody tr:hover {
+      background: #e0e7ee;
+    }
+    .spiced-table td {
+      padding: 0.75rem;
+    }
+  </style>
+  <div class="section-title">
+    Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
+  </div>
+  <div class="subtext">
+    <table class="spiced-table">
+      <thead>
+        <tr>
+          <th>Use Case</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Machine Learning / AI</td>
+          <td>LLaMA training, large model concurrency, multi-tenant inference</td>
+        </tr>
+        <tr>
+          <td>Scientific Simulations</td>
+          <td>GROMACS, LAMMPS—heavy concurrency, big speedups</td>
+        </tr>
+        <tr>
+          <td>Financial Modeling</td>
+          <td>Real-time risk analysis, multiple concurrent queries</td>
+        </tr>
+        <tr>
+          <td>Data Analytics / Big Data</td>
+          <td>Matrix multiplications, ETL pipelines, concurrency optimization</td>
+        </tr>
+        <tr>
+          <td>Graphics &amp; Game Development</td>
+          <td>Real-time rendering tasks perfectly aligned with GPU pipelines</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <a href="#contact" class="next-section">Contact Us</a>
+</section>
+
 
   <section id="contact">
     <div class="section-title">
