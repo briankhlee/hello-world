@@ -562,7 +562,7 @@ input:checked + .slider::before {
       <details>
         <summary>Why don’t GPUs operate efficiently by default?</summary>
         <div class="faq-content">
-          <p>GPUs are built for parallel tasks with minimal global insight; they lack dynamic reordering.</p>
+          <p>GPUs inherently do not operate in the most efficient way manner by design. They are engineered for a "shot gun" task execution approach [parallel computing] without visibility to the total amount of compute and memory resources required by a task(s) at its most demanding moments, nor are they built to adjust for their repetitive execution or to optimize on their own latencies for the presented operations and capabilities. This approach also leads to suboptimal pathways of execution by incurring latencies in the design architecture of the chips, where if the task was deployed in a different arrangement than it could have been executed more efficiently.</p>
         </div>
       </details>
       <details>
