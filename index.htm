@@ -132,6 +132,8 @@
       border-top: 2px solid #ccc;
       position: relative;
       overflow-y: auto; /* Internal scrolling when content exceeds viewport */
+      /* Ensure sections start fully opaque */
+      opacity: 1;
     }
     /* Remove top border on first section */
     #hero { border-top: none; }
@@ -660,7 +662,7 @@
       // IntersectionObserver for active nav highlighting
       const sections = document.querySelectorAll('section');
       const navLinks = document.querySelectorAll('header nav a');
-      const options = { root: null, rootMargin: '0px', threshold: 0.5 };
+      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -669,7 +671,7 @@
             if (currentLink) currentLink.classList.add('active');
           }
         });
-      }, options);
+      }, observerOptions);
       sections.forEach(section => observer.observe(section));
 
       // Logo click: Scroll to top
@@ -689,6 +691,33 @@
       const nav = document.querySelector('nav');
       menuToggle.addEventListener('click', () => {
         nav.classList.toggle('active');
+      });
+
+      // Staggered Fade-In on Internal Link Click (applies to both header nav and section buttons)
+      document.querySelectorAll('header nav a, a.next-section').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+          
+          // Only reset and fade in children for the target section.
+          const children = targetSection.children;
+          Array.from(children).forEach(child => {
+            child.style.opacity = 0;
+            child.style.transition = ''; 
+          });
+          
+          // Smooth scroll to the target section
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          
+          // Wait until the section is in view before starting the staggered fade in
+          setTimeout(() => {
+            for (let i = 0; i < children.length; i++) {
+              children[i].style.transition = `opacity 0.8s ease-in-out ${i * 100}ms`;
+              children[i].style.opacity = 1;
+            }
+          }, 600);
+        });
       });
 
       // Progress Bar Update on Scroll
