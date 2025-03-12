@@ -400,8 +400,10 @@ html {
   <section id="why-gpus">
     <div class="section-title">Your GPU wants a <span class="highlight">‘sweet spot’</span> of workload</div>
     <div class="subtext">
-      <p>Run too many tasks, and it overheats and flounders. <br> Too few, and it idles while deadlines burn.</p>
-      <p>Developers rarely know the gritty details of GPU pipeline saturation. <br> Corporate policies often silo GPUs or limit concurrency.</p>
+      <p>Run too many tasks, and it overheats and flounders. </p>
+	<p> Too few, and it idles while deadlines burn.</p>
+      <p>Developers rarely know the gritty details of GPU pipeline saturation. </p>
+	    <p>Corporate policies often silo GPUs or limit concurrency.</p>
       <p>That’s why <strong>0xDEADBEEF</strong> sorts GPU optimizations into three must-haves: <br> <em>Data locality</em>, <em>Pipeline saturation</em>, and <em>Kernel modification</em>.</p>
       <p class="emphasis">Leveraging <strong>0x–DEADBEEF's suite</strong> (short: <span class="highlight">0x</span>)– <br> you can fully harness your GPU’s potential.</p>
     </div>
@@ -412,9 +414,9 @@ html {
     <img class="hero-logo" src="0xDB_logo_black_transparent.png" alt="0xDEADBEEF Suite Logo">
     <div class="section-title">0x Crushes <span class="highlight">Concurrency Slowdowns</span></div>
     <div class="subtext">
-      <p><strong>0x suite</strong> intercepts and optimizes low-level GPU calls— <br> dynamically optimizing memory allocation, compute scheduling, and synchronization. </p>
+      <p><strong>0x suite</strong> intercepts and optimizes low-level GPU calls—dynamically optimizing <br> memory allocation, compute scheduling, and synchronization. </p>
 	    <p> This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty. </p>
-      <p class="emphasis">Traditional schedulers merely dispatch tasks, <br> while <span class="highlight">0x</span> dives deep into hardware to deliver true concurrency.</p>
+      <p class="emphasis">Traditional schedulers merely dispatch tasks, while <span class="highlight">0x</span> <br> dives deep into hardware to deliver true concurrency.</p>
     </div>
     <a href="#nexter" class="next-section">Discover 0xNEXTER</a>
   </section>
@@ -423,7 +425,7 @@ html {
     <div class="section-title">0xNEXTER: <br> Fine Tuning <span class="highlight">Memory &amp; Resources</span></div>
     <div class="subtext">
       <p><strong>0xNEXTER</strong> optimizes GPU concurrency by better scheduling <br> and dynamic resource reallocation to prevent idle cycles.</p>
-      <p class="emphasis">It integrates seamlessly with job schedulers <br> so each task gets just the right share of resources.</p>
+      <p class="emphasis">It integrates seamlessly with job schedulers so <br> each task gets just the right share of resources.</p>
     </div>
     <a href="#performance" class="next-section">View Performance</a>
   </section>
@@ -543,7 +545,7 @@ input:checked + .slider::before {
       <h3>GPU Thresholds &amp; Pipeline Quirks</h3>
       <p>Many kernels run only a fraction of their potential instructions, limiting effective usage.</p>
       <h3>AI Field &amp; Kernel Splicing</h3>
-      <p class="emphasis">Freed predicates and additional kernels <br> require advanced techniques to manage.</p>
+      <p class="emphasis">Freed predicates and additional kernels require <br>  advanced techniques to manage.</p>
     </div>
     <a href="#overseer" class="next-section">Discover 0xOVERSEER</a>
   </section>
@@ -552,7 +554,7 @@ input:checked + .slider::before {
     <div class="section-title">0xOVERSEER: <br> Next-Generation <span class="highlight">Kernel Splicing</span></div>
     <div class="subtext">
       <p><strong>0xOVERSEER</strong> fuses and reconfigures GPU operations in real time for maximum throughput.</p>
-      <p class="emphasis">Manual kernel tuning is replaced by <br> dynamic reconfiguration for improved saturation.</p>
+      <p class="emphasis">Manual kernel tuning is replaced by dynamic <br> reconfiguration for improved saturation.</p>
     </div>
     <a href="#faq" class="next-section">Read FAQ</a>
   </section>
@@ -563,7 +565,8 @@ input:checked + .slider::before {
       <details>
         <summary>Why don’t GPUs operate efficiently by default?</summary>
         <div class="faq-content">
-          <p>GPUs inherently do not operate in the most efficient way manner by design. They are engineered for a "shot gun" task execution approach [parallel computing] without visibility to the total amount of compute and memory resources required by a task(s) at its most demanding moments, nor are they built to adjust for their repetitive execution or to optimize on their own latencies for the presented operations and capabilities. This approach also leads to suboptimal pathways of execution by incurring latencies in the design architecture of the chips, where if the task was deployed in a different arrangement than it could have been executed more efficiently.</p>
+          <p>GPUs inherently do not operate in the most efficient way manner by design. They are engineered for a "shot gun" task execution approach [parallel computing] without visibility to the total amount of compute and memory resources required by a task(s) at its most demanding moments, nor are they built to adjust for their repetitive execution or to optimize on their own latencies for the presented operations and capabilities. </p> 
+		<p> This approach also leads to suboptimal pathways of execution by incurring latencies in the design architecture of the chips, where if the task was deployed in a different arrangement than it could have been executed more efficiently.</p>
         </div>
       </details>
       <details>
