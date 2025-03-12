@@ -110,6 +110,12 @@
       .menu-toggle {
         display: block;
       }
+      /* Adjust Use Cases Table Text Size & Padding on Mobile */
+      #use-cases .spiced-table th,
+      #use-cases .spiced-table td {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
     }
 
     /* Sections */
@@ -125,6 +131,7 @@
       padding: 3rem 2rem;
       border-top: 2px solid #ccc;
       position: relative;
+      overflow-y: auto; /* Internal scrolling when content exceeds viewport */
     }
     /* Remove top border on first section */
     #hero { border-top: none; }
@@ -316,32 +323,32 @@
     @media (min-width: 768px) {
       #progress-indicator {
         top: 20%;
-        height: 100vh;
+        height: 60vh; /* Reduced height for easier viewing */
         left: 20px;
       }
     }
-/* Dark Mode Styling for Spiced Tables */
-.dark-mode .spiced-table {
-  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
-}
-.dark-mode .spiced-table thead th {
-  background: #3b3b3b; /* Subtle dark header */
-  color: #f5f5f5;
-}
-.dark-mode .spiced-table tbody tr:nth-child(odd) {
-  background: #2a2a2a;
-}
-.dark-mode .spiced-table tbody tr:nth-child(even) {
-  background: #242424;
-}
-.dark-mode .spiced-table tbody tr:hover {
-  background: #3a3a3a;
-}
-.dark-mode .spiced-table,
-.dark-mode .spiced-table th,
-.dark-mode .spiced-table td {
-  border-color: #444;
-}
+    /* Dark Mode Styling for Spiced Tables */
+    .dark-mode .spiced-table {
+      box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    }
+    .dark-mode .spiced-table thead th {
+      background: #3b3b3b;
+      color: #f5f5f5;
+    }
+    .dark-mode .spiced-table tbody tr:nth-child(odd) {
+      background: #2a2a2a;
+    }
+    .dark-mode .spiced-table tbody tr:nth-child(even) {
+      background: #242424;
+    }
+    .dark-mode .spiced-table tbody tr:hover {
+      background: #3a3a3a;
+    }
+    .dark-mode .spiced-table,
+    .dark-mode .spiced-table th,
+    .dark-mode .spiced-table td {
+      border-color: #444;
+    }
   </style>
 </head>
 <body>
@@ -418,73 +425,73 @@
     <a href="#performance" class="next-section">View Performance</a>
   </section>
 
- <!-- Performance Section with Enhanced Table Style -->
-<section id="performance">
-  <style>
-    .spiced-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin: 1rem 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-    .spiced-table thead th {
-      background: #dce7f3; /* Subtle light blue for a minimal look */
-      color: #262626;
-      padding: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-    }
-    .spiced-table tbody tr {
-      transition: background 0.3s;
-    }
-    .spiced-table tbody tr:nth-child(odd) {
-      background: #f9f9f9;
-    }
-    .spiced-table tbody tr:nth-child(even) {
-      background: #f0f0f0;
-    }
-    .spiced-table tbody tr:hover {
-      background: #e0e7ee;
-    }
-    .spiced-table td {
-      padding: 0.75rem;
-    }
-  </style>
-  <div class="section-title">
-    We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span>
-  </div>
-  <div class="subtext">
-    <table class="spiced-table">
-      <thead>
-        <tr>
-          <th>Scenario</th>
-          <th>Time (s)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Without 0x</td>
-          <td>0.91</td>
-        </tr>
-        <tr>
-          <td>with 0x (Community Ver.)</td>
-          <td>0.82</td>
-        </tr>
-        <tr>
-          <td>with full 0xDEADBEEF's suite</td>
-          <td>0.78</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>That’s up to <span class="highlight">16.6%</span> raw speedup from concurrency alone.</p>
-    <p><strong>Training LLaMA:</strong> <br> Yields 28.5%–67.5% faster completion, even without specialized <strong>0xNEXTER</strong> code. For small GPU tasks, threads are “packed” for higher density—further boosting performance and reducing power usage by <span class="highlight">13.679%</span>–38.832%.</p>
-    <p class="emphasis"><strong>The Bottom Line:</strong> <br> High GPU utilization finally translates into <span class="highlight">real efficiency</span>.</p>
-  </div>
-  <a href="#deep-tech" class="next-section">Explore Deep Tech</a>
-</section>
+  <!-- Performance Section with Enhanced Table Style -->
+  <section id="performance">
+    <style>
+      .spiced-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .spiced-table thead th {
+        background: #dce7f3;
+        color: #262626;
+        padding: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+      .spiced-table tbody tr {
+        transition: background 0.3s;
+      }
+      .spiced-table tbody tr:nth-child(odd) {
+        background: #f9f9f9;
+      }
+      .spiced-table tbody tr:nth-child(even) {
+        background: #f0f0f0;
+      }
+      .spiced-table tbody tr:hover {
+        background: #e0e7ee;
+      }
+      .spiced-table td {
+        padding: 0.75rem;
+      }
+    </style>
+    <div class="section-title">
+      We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span>
+    </div>
+    <div class="subtext">
+      <table class="spiced-table">
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Time (s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Without 0x</td>
+            <td>0.91</td>
+          </tr>
+          <tr>
+            <td>with 0x (Community Ver.)</td>
+            <td>0.82</td>
+          </tr>
+          <tr>
+            <td>with full 0xDEADBEEF's suite</td>
+            <td>0.78</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>That’s up to <span class="highlight">16.6%</span> raw speedup from concurrency alone.</p>
+      <p><strong>Training LLaMA:</strong> <br> Yields 28.5%–67.5% faster completion, even without specialized <strong>0xNEXTER</strong> code. For small GPU tasks, threads are “packed” for higher density—further boosting performance and reducing power usage by <span class="highlight">13.679%</span>–38.832%.</p>
+      <p class="emphasis"><strong>The Bottom Line:</strong> <br> High GPU utilization finally translates into <span class="highlight">real efficiency</span>.</p>
+    </div>
+    <a href="#deep-tech" class="next-section">Explore Deep Tech</a>
+  </section>
 
   <section id="deep-tech">
     <div class="section-title">
@@ -561,79 +568,78 @@
     <a href="#use-cases" class="next-section">Explore Use Cases</a>
   </section>
 
-<!-- Use Cases Section with Enhanced Table Colors -->
-<section id="use-cases">
-  <style>
-    .spiced-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      margin: 1rem 0;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-    .spiced-table thead th {
-      background: #dce7f3; /* Subtle light blue header */
-      color: #262626;
-      padding: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-top-left-radius: 6px;
-      border-top-right-radius: 6px;
-    }
-    .spiced-table tbody tr {
-      transition: background 0.3s;
-    }
-    .spiced-table tbody tr:nth-child(odd) {
-      background: #f9f9f9;
-    }
-    .spiced-table tbody tr:nth-child(even) {
-      background: #f0f0f0;
-    }
-    .spiced-table tbody tr:hover {
-      background: #e0e7ee;
-    }
-    .spiced-table td {
-      padding: 0.75rem;
-    }
-  </style>
-  <div class="section-title">
-    Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
-  </div>
-  <div class="subtext">
-    <table class="spiced-table">
-      <thead>
-        <tr>
-          <th>Use Case</th>
-          <th>Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Machine Learning / AI</td>
-          <td>LLaMA training, large model concurrency, multi-tenant inference</td>
-        </tr>
-        <tr>
-          <td>Scientific Simulations</td>
-          <td>GROMACS, LAMMPS—heavy concurrency, big speedups</td>
-        </tr>
-        <tr>
-          <td>Financial Modeling</td>
-          <td>Real-time risk analysis, multiple concurrent queries</td>
-        </tr>
-        <tr>
-          <td>Data Analytics / Big Data</td>
-          <td>Matrix multiplications, ETL pipelines, concurrency optimization</td>
-        </tr>
-        <tr>
-          <td>Graphics &amp; Game Development</td>
-          <td>Real-time rendering tasks perfectly aligned with GPU pipelines</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <a href="#contact" class="next-section">Contact Us</a>
-</section>
-
+  <!-- Use Cases Section with Enhanced Table Colors -->
+  <section id="use-cases">
+    <style>
+      .spiced-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 1rem 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .spiced-table thead th {
+        background: #dce7f3;
+        color: #262626;
+        padding: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+      .spiced-table tbody tr {
+        transition: background 0.3s;
+      }
+      .spiced-table tbody tr:nth-child(odd) {
+        background: #f9f9f9;
+      }
+      .spiced-table tbody tr:nth-child(even) {
+        background: #f0f0f0;
+      }
+      .spiced-table tbody tr:hover {
+        background: #e0e7ee;
+      }
+      .spiced-table td {
+        padding: 0.75rem;
+      }
+    </style>
+    <div class="section-title">
+      Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
+    </div>
+    <div class="subtext">
+      <table class="spiced-table">
+        <thead>
+          <tr>
+            <th>Use Case</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Machine Learning / AI</td>
+            <td>LLaMA training, large model concurrency, multi-tenant inference</td>
+          </tr>
+          <tr>
+            <td>Scientific Simulations</td>
+            <td>GROMACS, LAMMPS—heavy concurrency, big speedups</td>
+          </tr>
+          <tr>
+            <td>Financial Modeling</td>
+            <td>Real-time risk analysis, multiple concurrent queries</td>
+          </tr>
+          <tr>
+            <td>Data Analytics / Big Data</td>
+            <td>Matrix multiplications, ETL pipelines, concurrency optimization</td>
+          </tr>
+          <tr>
+            <td>Graphics &amp; Game Development</td>
+            <td>Real-time rendering tasks perfectly aligned with GPU pipelines</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <a href="#contact" class="next-section">Contact Us</a>
+  </section>
 
   <section id="contact">
     <div class="section-title">
