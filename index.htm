@@ -116,34 +116,47 @@ html {
     }
     /* Hamburger Menu Toggle (Mobile) */
     .menu-toggle {
-      display: none;
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin-right: 1rem;
-    }
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background: #fff;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        right: 0;
-        border-bottom: 1px solid #ddd;
-        z-index: 999;
-      }
-      nav.active { display: flex; }
-      .menu-toggle { display: block; }
-      /* Adjust Use Cases Table on Mobile */
-      #use-cases .spiced-table th,
-      #use-cases .spiced-table td {
-        font-size: 0.75rem;
-        padding: 0.5rem;
-      }
-    }
+  display: none; /* Hidden by default */
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #007aff; /* button color */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  cursor: pointer;
+  z-index: 10000; /* Ensure it's above other elements */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Show button on mobile */
+  }
+  
+  header nav {
+    position: fixed;
+    bottom: 60px; /* Place above the button */
+    left: 0;
+    right: 0;
+    top: auto;
+    border-bottom: none;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background: #fff;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  header nav.active {
+    display: flex; /* Show menu when active */
+  }
+}
 
     /* Sections */
     section {
