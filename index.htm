@@ -26,6 +26,32 @@ html {
   }
 }
     /* Header */
+	  header nav {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center; /* Centers horizontally */
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  header nav {
+    display: none;
+    flex-direction: column;
+    align-items: center; /* Centers vertically on mobile */
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    z-index: 999;
+    padding-bottom: 1rem;
+  }
+
+  header nav.active {
+    display: flex;
+  }
+}
     header {
       position: fixed;
       top: 0;
