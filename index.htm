@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0xDEADBEEF. – Scroll Snap, Dark FAQ, and Technical Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Reset & Font */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: #262626;
+      scroll-behavior: smooth;
+    }
+    body { padding-top: 70px; }
+    html { scroll-snap-type: y mandatory; overflow-y: scroll; }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+    .company-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-right: auto;
+    }
+    .company-info img { height: 40px; width: auto; }
+    .company-name { font-weight: 600; font-size: 1.2rem; color: #262626; }
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex: 1;
+    }
+    nav a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #262626;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #007aff; }
+    nav a.active { color: #005EE9; font-weight: 700; }
+
+    /* Sections */
+    section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 2px solid #ccc;
+    }
+    /* Remove top border on first section */
+    #hero { border-top: none; }
+
+    /* Background Colors */
+    #hero {
+      background: linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
+        url("https://via.placeholder.com/1920x1080/eeeeee/333333?text=Light+Hero+Background")
+        no-repeat center center / cover;
+    }
+    #why-gpus    { background: #FAFAFA; }
+    #solution    { background: #F7F7F7; }
+    #nexter      { background: #F4F4F4; }
+    #performance { background: #F1F1F1; }
+    #deep-tech   { background: #EEE; }
+    #overseer    { background: #EDEDED; }
+    #faq         { background: #232323; color: #f5f5f5; }
+    #use-cases   { background: #E8E8E8; }
+    #contact     { background: #E5E5E5; }
+
+    /* FAQ Styling */
+    #faq .section-title { color: #fff; }
+    #faq .subtext { color: #e0e0e0; }
+    #faq details {
+      max-width: 800px;
+      margin: 1rem auto;
+      background: #2e2e2e;
+      border: 1px solid #444;
+      border-radius: 0.3rem;
+      overflow: hidden;
+    }
+    #faq summary {
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      outline: none;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      background: #2e2e2e;
+    }
+    #faq summary::-webkit-details-marker { display: none; }
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 1rem;
+    }
+    details[open] .faq-content { max-height: 300px; }
+    .faq-content p {
+      margin: 0.5rem 0 1rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #ccc;
+    }
+
+    /* Headings & Subtext */
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1.2;
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+    }
+    .subtext {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    /* Hero Specifics */
+    .hero-logo { width: 200px; margin-bottom: 2rem; }
+    #hero .section-title { font-size: 3rem; margin-bottom: 1rem; }
+    .cta-btn {
+      display: inline-block;
+      background: #262626;
+      color: #fff;
+      padding: 0.8rem 1.6rem;
+      border-radius: 0.3rem;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      transition: background 0.3s;
+    }
+    .cta-btn:hover { background: #000; }
+
+    /* Highlight */
+    .highlight { color: #005EE9; font-weight: 600; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem 2rem;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="company-info">
+      <img src="0xDEADBEEF_OFFICIAL_LOGO-01.svg" alt="0xDEADBEEF Logo">
+      <div class="company-name"><strong>0xDEADBEEF</strong></div>
+    </div>
+    <nav>
+      <a href="#hero">Home</a>
+      <a href="#why-gpus">Why GPUs Underperform</a>
+      <a href="#solution">Our Solution</a>
+      <a href="#nexter">0xNEXTER</a>
+      <a href="#performance">Performance</a>
+      <a href="#deep-tech">Deep Tech</a>
+      <a href="#overseer">0xOVERSEER</a>
+      <a href="#faq">FAQ</a>
+      <a href="#use-cases">Use Cases</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="hero">
+    <img class="hero-logo" src="0xDEADBEEF_OFFICIAL_LOGO-01.svg" alt="0xDEADBEEF Hero Logo">
+    <div class="section-title">
+      Unleash Your GPU’s <span class="highlight">True Potential</span>
+    </div>
+    <div class="subtext">
+      0xDEADBEEF revolutionizes how you use accelerated hardware. Say goodbye to underutilized pipelines, hello to seamless concurrency, and watch your workloads fly.
+    </div>
+    <a href="#solution" class="cta-btn">Learn More</a>
+  </section>
+
+  <section id="why-gpus">
+    <div class="section-title">
+      Your GPU wants a <span class="highlight">‘sweet spot’</span> of workload
+    </div>
+    <div class="subtext">
+      <p>Run too many tasks, and it overheats and flounders. Too few, and it idles while deadlines burn. Thermal regulations, power constraints, and hidden inefficiencies all play a part.</p>
+      <p>Developers rarely know the gritty details of GPU pipeline saturation. Corporate policies often silo GPUs or limit concurrency, so real optimization never happens.</p>
+      <p>That’s why <strong>0xDEADBEEF</strong> sorts GPU optimizations into three must-haves: <em>Data locality</em>, <em>Pipeline saturation</em>, and <em>Kernel modification</em>. Leveraging <strong>0x–DEADBEEF's suite of optimization software</strong> (short form: <span class="highlight">0x</span>), you can fully harness your GPU’s potential.</p>
+    </div>
+  </section>
+
+  <section id="solution">
+    <img class="hero-logo" src="0xDB_logo_black_transparent.png" alt="0xDEADBEEF Suite Logo">
+    <div class="section-title">
+      0x Crushes <span class="highlight">Concurrency Slowdowns</span>
+    </div>
+    <div class="subtext">
+      <p><strong>0xDEADBEEF's suite of optimization software</strong> intercepts and optimizes low-level GPU calls—dynamically reordering memory allocation, compute scheduling, and synchronization. This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty.</p>
+      <p>In short, while traditional schedulers merely dispatch tasks, <span class="highlight">0x</span> dives deep into hardware operations to deliver true concurrency.</p>
+    </div>
+  </section>
+
+  <section id="nexter">
+    <div class="section-title">
+      0xNEXTER: Fine-Tuning <span class="highlight">Memory &amp; Resources</span>
+    </div>
+    <div class="subtext">
+      <p>By intercepting low-level GPU calls, <strong>0xNEXTER</strong> optimizes concurrency for better scheduling, pipeline saturation, and freed execution predicates to slot in additional kernels. It dynamically reallocates resources to prevent idle cycles and ensure near-peak utilization.</p>
+      <p>0xNEXTER integrates seamlessly with job schedulers, ensuring that each task gets just the right share of GPU resources.</p>
+    </div>
+  </section>
+
+  <section id="performance">
+    <div class="section-title">
+      We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span>
+    </div>
+    <div class="subtext">
+      <p><strong>Matrix Math (CuBLAS SGEMM):</strong> – No 0xDEADBEEF's suite: 0.91s, 0xDEADBEEF's suite (Community): 0.82s, full 0xDEADBEEF's suite: 0.78s. That’s up to <span class="highlight">16.6%</span> raw speedup from concurrency alone.</p>
+      <p><strong>Training LLaMA:</strong> Yields 28.5%–67.5% faster completion, even without specialized <strong>0xNEXTER</strong> code. For small GPU tasks, threads are “packed” for higher density—further boosting performance and reducing power usage by <span class="highlight">13.679%</span>–38.832%.</p>
+      <p><strong>The Bottom Line:</strong> High GPU utilization finally translates into <span class="highlight">real efficiency</span>.</p>
+    </div>
+  </section>
+
+  <section id="deep-tech">
+    <div class="section-title">
+      GPUs Love a <span class="highlight">Goldilocks Load</span>: Not Too Big, Not Too Small
+    </div>
+    <div class="subtext">
+      <h3>GPU Thresholds &amp; Pipeline Quirks</h3>
+      <p>Many developers rarely address deep concurrency, leaving pipeline saturation a dream. While <strong>LLaMA</strong> uses CUDA for ~80% optimization, even the best kernels often run only 10/32 instructions per SM warp—limiting effective usage to around 30%.</p>
+      <h3>AI Field &amp; Kernel Splicing</h3>
+      <p>Freed predicates and additional kernels are challenging to manage manually. That’s why advanced techniques are needed.</p>
+    </div>
+  </section>
+
+  <section id="overseer">
+    <div class="section-title">
+      0xOVERSEER: Next-Generation <span class="highlight">Kernel Splicing</span>
+    </div>
+    <div class="subtext">
+      <p><strong>0xOVERSEER</strong> is our cutting-edge solution that automatically performs <span class="highlight">kernel splicing</span> at the Python layer. By analyzing kernel behavior in real time, it dynamically fuses and reconfigures complementary operations to maximize GPU throughput.</p>
+      <p>With <strong>0xOVERSEER</strong>, manual kernel tuning becomes a thing of the past—unlocking performance gains through <span class="highlight">dynamic reconfiguration</span> and improved pipeline saturation.</p>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="section-title">
+      FAQ on <span class="highlight">GPU Optimization</span>
+    </div>
+    <div class="subtext">
+      <details>
+        <summary>Why don’t GPUs operate efficiently by default?</summary>
+        <div class="faq-content">
+          <p>GPUs are built for parallel tasks with minimal global insight; they lack the dynamic reordering needed to optimize every operation. 0x provides that missing synergy.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Do you integrate with job schedulers?</summary>
+        <div class="faq-content">
+          <p>Absolutely. Our software works seamlessly beneath existing job schedulers to optimize concurrency in real time.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What’s the difference between 0xNEXTER and a plain scheduler?</summary>
+        <div class="faq-content">
+          <p>Traditional schedulers merely assign tasks to GPUs, whereas <strong>0xNEXTER</strong> orchestrates GPU resource allocation to prevent performance degradation.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Any perks beyond speed?</summary>
+        <div class="faq-content">
+          <p>Definitely. Our software has demonstrated up to 38.832% energy savings and improved resource sharing across teams.</p>
+        </div>
+      </details>
+      <details>
+        <summary>I already see 100% SM occupancy. Why do I need 0x?</summary>
+        <div class="faq-content">
+          <p>High occupancy alone isn’t sufficient—true pipeline saturation drives efficiency. <strong>0xNEXTER</strong> dynamically optimizes resource allocation to ensure tasks complete faster.</p>
+        </div>
+      </details>
+      <details>
+        <summary>How do BFLOAT16, FP16, &amp; batch sizes factor in?</summary>
+        <div class="faq-content">
+          <p>0x manages these parameters for maximum throughput, balancing precision with performance across varying workload sizes.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Is MIG different from 0x's partitioning?</summary>
+        <div class="faq-content">
+          <p>MIG statically slices a GPU. In contrast, 0x dynamically reassigns resources in real time, ensuring optimal concurrency without rigid partitioning.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="use-cases">
+    <div class="section-title">
+      Wherever GPUs Matter, <span class="highlight">0x</span> Thrives
+    </div>
+    <div class="subtext">
+      <ul>
+        <li><strong>Machine Learning / AI:</strong> LLaMA training, large model concurrency, multi-tenant inference</li>
+        <li><strong>Scientific Simulations:</strong> GROMACS, LAMMPS—heavy concurrency, big speedups</li>
+        <li><strong>Financial Modeling:</strong> Real-time risk analysis, multiple concurrent queries</li>
+        <li><strong>Data Analytics / Big Data:</strong> Matrix multiplications, ETL pipelines, concurrency optimization</li>
+        <li><strong>Graphics &amp; Game Development:</strong> Real-time rendering tasks perfectly aligned with GPU pipelines</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-title">
+      Ready to Push Your GPU to the <span class="highlight">Limit</span>?
+    </div>
+    <div class="subtext">
+      <p>Drop us a line, request a customized demo, or just say hello.</p>
+      <p>Email: <a href="mailto:anton@dead-beef.com">anton@dead-beef.com</a></p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 <strong>0xDEADBEEF</strong>. All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('header nav a');
+      const options = { root: null, rootMargin: '0px', threshold: 0.5 };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => link.classList.remove('active'));
+            const currentLink = document.querySelector(`header nav a[href="#${entry.target.id}"]`);
+            if (currentLink) currentLink.classList.add('active');
+          }
+        });
+      }, options);
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
+</body>
+</html>
