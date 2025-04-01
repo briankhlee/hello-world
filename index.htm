@@ -2,132 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Furiosa – Three.js ES Modules Fixes">
+  <meta name="description" content="Furiosa – Futuristic Interactive Three.js">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FURIOSA – ES Module Fix</title>
+  <title>Furiosa: Futuristic 3D Interaction</title>
+
   <style>
     /* Minimal reset */
     * {
-      margin: 0;
-      padding: 0;
+      margin: 0; 
+      padding: 0; 
       box-sizing: border-box;
     }
     html, body {
       width: 100%;
       height: 100%;
       background: #000; /* fallback black background */
-      overflow: hidden;
       font-family: sans-serif;
+      overflow: hidden;  /* no horizontal scroll, full screen */
     }
 
-    /* A full-screen container for the 3D scene */
+    /* Full-screen container for the 3D scene */
     #hero {
       position: relative;
       width: 100%;
       height: 100%;
       background: #000;
     }
-    /* An overlay for debug or instructions */
+    /* The overlayed info text to see debug */
     #info {
       position: absolute;
-      top: 1rem;
+      top: 1rem; 
       left: 1rem;
       color: #fff;
       z-index: 10;
       font-size: 1rem;
+      pointer-events: none;
     }
-    /* Canvas that displays the Three.js scene */
+    /* Our Three.js canvas */
     canvas {
       position: absolute;
       top: 0; 
       left: 0;
-      display: block;
       width: 100%;
       height: 100%;
-      z-index: -1; /* behind the text overlay */
+      display: block;
+      z-index: -1; /* behind the text */
     }
   </style>
 </head>
 <body>
-  <div id="hero">
-    <div id="info">Furiosa Three.js – ES Module Demo</div>
-    <canvas id="three-canvas"></canvas>
-  </div>
 
-  <!-- Use ES Modules from a matching version (0.128) of Three + OrbitControls -->
-  <script type="module">
-    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.128/build/three.module.js";
-    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.128/examples/jsm/controls/OrbitControls.js";
+<div id="hero">
+  <div id="info">Furiosa Interactive • Move your mouse or tilt your device</div>
+  <canvas id="three-canvas"></canvas>
+</div>
 
-    // Wait for DOM (not strictly necessary in "type=module", but safe)
-    document.addEventListener("DOMContentLoaded", () => {
-      const hero = document.getElementById("hero");
-      const canvas = document.getElementById("three-canvas");
-      const info = document.getElementById("info");
+<!-- ES Modules from a matching version of Three.js -->
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.128/build/three.module.js";
 
-      // Log container size
-      console.log("Hero size:", hero.clientWidth, hero.clientHeight);
-      info.textContent += ` | Size: ${hero.clientWidth} x ${hero.clientHeight}`;
+document.addEventListener("DOMContentLoaded", () => {
+  const hero = document.getElementById("hero");
+  const infoDiv = document.getElementById("info");
+  const canvas = document.getElementById("three-canvas");
 
-      // 1) Create WebGLRenderer
-      const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: true
-      });
-      renderer.setClearColor(0x000000, 1); // black background
-      renderer.setSize(hero.clientWidth, hero.clientHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+  // Log container size for debugging
+  console.log("Hero container size:", hero.clientWidth, hero.clientHeight);
+  infoDiv.textContent += ` | Size: ${hero.clientWidth}x${hero.clientHeight}`;
 
-      // 2) Scene & Camera
-      const scene = new THREE.Scene();
-      // A perspective camera that fits the container
-      const camera = new THREE.PerspectiveCamera(
-        50,
-        hero.clientWidth / hero.clientHeight,
-        0.1,
-        1000
-      );
-      camera.position.set(0, 0, 30);
+  // 1) CREATE RENDERER
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setClearColor(0x000000, 1); // black background
+  renderer.setSize(hero.clientWidth, hero.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
 
-      // 3) OrbitControls
-      const controls = new OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
-      controls.enablePan = false; // optional
-      controls.update();
+  // 2) CREATE SCENE & CAMERA
+  const scene = new THREE.Scene();
+  // A perspective camera
+  const camera = new THREE.PerspectiveCamera(60, hero.clientWidth / hero.clientHeight, 0.1, 1000);
+  camera.position.z = 10;
 
-      // 4) Add geometry (a big pink torus)
-      const geometry = new THREE.TorusGeometry(10, 3, 16, 60);
-      // BasicMaterial so we don't rely on lighting
-      const material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-      const torus = new THREE.Mesh(geometry, material);
-      scene.add(torus);
+  // 3) LIGHTS (for StandardMaterial) 
+  const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambient);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  dirLight.position.set(2, 5, 3);
+  scene.add(dirLight);
 
-      // Animate
-      function animate() {
-        requestAnimationFrame(animate);
+  // 4) GEOMETRY: a bright, futuristic torus
+  const geometry = new THREE.TorusKnotGeometry(2, 0.6, 150, 16);
+  const material = new THREE.MeshStandardMaterial({ 
+    color: 0xff44aa,
+    metalness: 0.6,
+    roughness: 0.2,
+    emissive: 0x110011
+  });
+  const torusKnot = new THREE.Mesh(geometry, material);
+  scene.add(torusKnot);
 
-        // Slight rotation
-        torus.rotation.x += 0.002;
-        torus.rotation.y += 0.003;
+  // TRACK MOUSE OR DEVICE ORIENTATION
+  let mouseX = 0, mouseY = 0;      // for desktop
+  let tiltBeta = 0, tiltGamma = 0; // for mobile device orientation
 
-        controls.update();
-        renderer.render(scene, camera);
-      }
-      animate();
+  // --- Desktop mouse move
+  document.addEventListener("mousemove", (e) => {
+    mouseX = (e.clientX - hero.clientWidth / 2) * 0.004; 
+    mouseY = (e.clientY - hero.clientHeight / 2) * 0.004;
+  });
 
-      // On resize
-      window.addEventListener("resize", () => {
-        console.log("Resizing hero container...");
-        const w = hero.clientWidth, h = hero.clientHeight;
-        console.log("New size:", w, h);
-        info.textContent = `Furiosa Three.js – ES Module Demo | Size: ${w} x ${h}`;
+  // --- Device orientation (mobile)
+  // requires https + user permission in many browsers
+  function handleOrientation(event) {
+    // gamma ~ left/right tilt, beta ~ front/back tilt
+    tiltGamma = event.gamma; // range -90..90
+    tiltBeta = event.beta;   // range  0..180
+  }
+  window.addEventListener("deviceorientation", handleOrientation);
 
-        renderer.setSize(w, h);
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-      });
-    });
-  </script>
+  // animate
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // a baseline rotation to keep it dynamic
+    torusKnot.rotation.x += 0.002; 
+    torusKnot.rotation.y += 0.003;
+
+    // Use mouse or orientation to add extra rotation
+    // e.g. rotate around x/y based on mouse or tilt
+    // blend them so it works on both desktop & mobile
+    const rotateX = mouseY + ((tiltBeta - 90) * 0.005);
+    const rotateY = mouseX + (tiltGamma * 0.005);
+
+    torusKnot.rotation.x += rotateX * 0.01;
+    torusKnot.rotation.y += rotateY * 0.01;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // On resize
+  window.addEventListener("resize", () => {
+    const w = hero.clientWidth, h = hero.clientHeight;
+    console.log("Resizing to:", w, h);
+    infoDiv.textContent = `Furiosa Interactive | Size: ${w}x${h}`;
+    renderer.setSize(w, h);
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+  });
+});
+</script>
 </body>
 </html>
