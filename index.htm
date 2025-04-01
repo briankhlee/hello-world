@@ -2,729 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="description" content="Minimal 3D Rotating Torus Test">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>0xDEADBEEF–GPU GO BRRRRRR</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>3D Torus - Minimal Test</title>
+
+  <!-- Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
   <style>
-    /* Global Reset & Font */
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body {
+    /* Reset */
+    * {
       margin: 0;
       padding: 0;
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      color: #262626;
-      scroll-behavior: smooth;
+      box-sizing: border-box;
     }
-html {
-  overflow-y: scroll;
-}
-
-@media (min-width: 769px) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
-}
-    /* Header */
-	  header nav {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center; /* Centers horizontally */
-  flex: 1;
-}
-
-@media (max-width: 768px) {
-  header nav {
-    display: none;
-    flex-direction: column;
-    align-items: center; /* Centers vertically on mobile */
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    z-index: 999;
-    padding-bottom: 1rem;
-  }
-
-  header nav.active {
-    display: flex;
-  }
-}
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
-      background: #fff;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-    .company-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-right: auto;
-    }
-    .company-info img {
-      height: 40px;
-      width: auto;
-      cursor: pointer;
-      transition: transform 0.5s ease;
-    }
-    .company-info img:hover {
-      transform: rotate(360deg);
-    }
-    .company-name {
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #262626;
-      transition: color 0.3s;
-    }
-    nav {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex: 1;
-    }
-    nav a {
-      text-decoration: none;
-      font-weight: 500;
-      color: #262626;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: #007aff; }
-    nav a.active { color: #005EE9; font-weight: 700; }
-    /* Dark Mode Toggle Button */
-    #theme-toggle {
-      background: transparent;
-      border: 1px solid #262626;
-      color: #262626;
-      padding: 0.3rem 0.6rem;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border-radius: 3px;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
-    }
-    #theme-toggle:hover {
-      background: #262626;
-      color: #fff;
-    }
-    /* Hamburger Menu Toggle (Mobile) */
-    .menu-toggle {
-  display: none; /* Hidden by default */
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background: #007aff; /* button color */
-  color: #fff;
-  border: none;
-  padding: 0.5rem 0.8rem;
-  border-radius: 50%;
-  font-size: 1.8rem;
-  cursor: pointer;
-  z-index: 10000; /* Ensure it's above other elements */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block; /* Show button on mobile */
-  }
-  
-  header nav {
-    position: fixed;
-    bottom: 60px; /* Place above the button */
-    left: 0;
-    right: 0;
-    top: auto;
-    border-bottom: none;
-    border-top: 1px solid #ddd;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    background: #fff;
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    align-items: center;
-    z-index: 9999;
-  }
-
-  header nav.active {
-    display: flex; /* Show menu when active */
-  }
-}
-
-    /* Sections */
-    section {
-      scroll-snap-align: start;
-      min-height: 100vh;
+    html, body {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 3rem 2rem;
-      border-top: 2px solid #ccc;
+      height: 100%;
+      background: #fff;
+      font-family: sans-serif;
+      overflow: hidden; /* no horizontal scroll */
+    }
+
+    /* Full-window hero container */
+    .hero {
       position: relative;
-      overflow-y: auto;
-      opacity: 1;
-    }
-    #hero { border-top: none; }
-    /* Background Colors */
-    #hero {
-      background: linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)),
-        url("https://via.placeholder.com/1920x1080/eeeeee/333333?text=Light+Hero+Background")
-        no-repeat center center / cover;
-    }
-    #why-gpus { background: #FAFAFA; }
-    #solution { background: #F7F7F7; }
-    #nexter { background: #F4F4F4; }
-    #performance { background: #F1F1F1; }
-    #deep-tech { background: #EEE; }
-    #overseer { background: #EDEDED; }
-    #faq { background: #232323; color: #f5f5f5; }
-    #use-cases { background: #E8E8E8; }
-    #contact { background: #E5E5E5; }
-
-    /* FAQ Styling */
-    #faq .section-title { color: #fff; }
-    #faq .subtext { color: #e0e0e0; }
-    #faq details {
-      max-width: 800px;
-      margin: 1rem auto;
-      background: #2e2e2e;
-      border: 1px solid #444;
-      border-radius: 0.3rem;
-      overflow: hidden;
-    }
-    #faq summary {
-      cursor: pointer;
-      font-size: 1.1rem;
-      font-weight: 600;
-      outline: none;
-      padding: 1rem;
-      margin-bottom: 0.5rem;
-      background: #2e2e2e;
-    }
-    #faq summary::-webkit-details-marker { display: none; }
-    .faq-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.6s ease-in-out;
-      padding: 0 1rem;
-    }
-    details[open] .faq-content { max-height: 1000px; }
-    .faq-content p {
-      margin: 0.5rem 0 1rem;
-      font-size: 1rem;
-      line-height: 1.5;
-      color: #ccc;
-    }
-
-    /* Headings & Subtext */
-    .section-title {
-      font-size: 2.4rem;
-      font-weight: 600;
-      line-height: 1.2;
-      max-width: 900px;
-      margin: 0 auto 1.5rem;
-      transition: color 0.3s;
-    }
-    .subtext {
-      max-width: 800px;
-      margin: 0 auto;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      transition: color 0.3s;
-    }
-    .emphasis {
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-top: 1rem;
-      color: inherit;
-    }
-    
-    /* Hero Specifics */
-    .hero-logo {
-      width: 200px;
-      margin-bottom: 2rem;
-      transition: transform 0.5s ease;
-    }
-    .hero-logo:hover { transform: rotate(360deg); }
-    #hero .section-title { font-size: 3rem; margin-bottom: 1rem; }
-    .cta-btn {
-      display: inline-block;
-      background: #262626;
-      color: #fff;
-      padding: 0.8rem 1.6rem;
-      border-radius: 0.3rem;
-      text-decoration: none;
-      font-weight: 600;
-      margin-top: 1.5rem;
-      transition: background 0.3s;
-    }
-    .cta-btn:hover { background: #000; }
-    
-    /* Highlight */
-    .highlight { color: #005EE9; font-weight: 600; }
-    
-    /* Next Section Button */
-    .next-section {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.5rem 1rem;
-      background: #007aff;
-      color: #fff;
-      border-radius: 4px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: background 0.3s;
-    }
-    .next-section:hover { background: #005bb5; }
-    
-    /* Table Styling for Use Cases */
-    table {
-      width: 90%;
-      margin: 1rem auto;
-      border-collapse: collapse;
-      font-size: 1rem;
-    }
-    table, th, td { border: 1px solid #ccc; }
-    th, td { padding: 0.5rem; text-align: center; }
-    #use-cases table th, #use-cases table td { white-space: nowrap; }
-    
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 1rem 2rem;
-      background: #fff;
-      border-top: 1px solid #ddd;
-      font-size: 0.9rem;
-    }
-    
-    /* Dark Mode Overrides */
-    .dark-mode header { background: #262626; }
-    .dark-mode nav a { color: #FFFFFF; }
-    .dark-mode .company-name { color: #FFFFFF; }
-    .dark-mode .section-title { color: #FFFFFF; }
-    .dark-mode .subtext { color: #898989; }
-    .dark-mode footer { background: #262626; color: #FFFFFF; border-top: 1px solid #333; }
-    .dark-mode section:not(#faq) { background: #262626 !important; }
-    .dark-mode .company-info img, .dark-mode .hero-logo {
-      filter: brightness(0) invert(1);
-    }
-    .dark-mode #theme-toggle {
-      background: #FFFFFF;
-      color: #262626;
-      border-color: #FFFFFF;
-    }
-    
-    /* Progress Indicator */
-    #progress-indicator {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 4px;
-      height: 100%;
-      background: rgba(0,0,0,0.1);
-      z-index: 10000;
-    }
-    #progress-bar {
       width: 100%;
-      height: 0;
-      background: #007aff;
+      height: 100vh;   /* fill full viewport height */
+      background: #000; /* fallback color if webgl fails */
+      overflow: hidden;
     }
-    @media (min-width: 768px) {
-      #progress-indicator {
-        top: 20%;
-        height: 60vh;
-        left: 20px;
-      }
+    /* The 3D canvas */
+    #three-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: -1;
     }
-    
-    /* Dark Mode Styling for Tables */
-    .dark-mode .spiced-table {
-      box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+    /* Info overlay to confirm sizes, etc. */
+    .info {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      color: #fff;
+      font-size: 1rem;
+      z-index: 1;
     }
-    .dark-mode .spiced-table thead th {
-      background: #3b3b3b;
-      color: #f5f5f5;
-    }
-    .dark-mode .spiced-table tbody tr:nth-child(odd) { background: #2a2a2a; }
-    .dark-mode .spiced-table tbody tr:nth-child(even) { background: #242424; }
-    .dark-mode .spiced-table tbody tr:hover { background: #3a3a3a; }
-    .dark-mode .spiced-table,
-    .dark-mode .spiced-table th,
-    .dark-mode .spiced-table td { border-color: #444; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="company-info">
-      <img src="0xDEADBEEF_OFFICIAL_LOGO-01.svg" alt="0xDEADBEEF Logo">
-      <div class="company-name"><strong>0xDEADBEEF</strong></div>
-    </div>
-    <button class="menu-toggle">&#9776;</button>
-    <nav>
-  <a href="#hero">Home</a>
-  <a href="#solution">Our Solution</a>
-  <a href="#faq">FAQ</a>
-  <a href="#use-cases">Use Cases</a>
-  <a href="#contact">Contact</a>
-    </nav>
-    <label class="switch">
-  <input type="checkbox" id="theme-toggle">
-  <span class="slider"></span>
-</label>
-  </header>
-  
-  <!-- Progress Indicator -->
-  <div id="progress-indicator">
-    <div id="progress-bar"></div>
-  </div>
-  
-  <section id="hero">
-    <img class="hero-logo" src="0xDEADBEEF_OFFICIAL_LOGO-01.svg" alt="0xDEADBEEF Hero Logo">
-    <div class="section-title">Unleash Your GPU’s <span class="highlight">True Potential</span></div>
-    <div class="subtext">
-      0xDEADBEEF revolutionizes how you use accelerated hardware. Say goodbye to underutilized pipelines, hello to seamless concurrency, and watch your workloads fly.
-    </div>
-    <a href="#why-gpus" class="next-section">Discover How</a>
+  <section class="hero">
+    <div class="info" id="info">No logs yet</div>
+    <canvas id="three-canvas"></canvas>
   </section>
-  
-  <section id="why-gpus">
-    <div class="section-title">Your GPU wants a <span class="highlight">‘sweet spot’</span> of workload</div>
-    <div class="subtext">
-      <p>Run too many tasks, and it overheats and flounders. </p>
-	<p> Too few, and it idles while deadlines burn.</p>
-      <p>Developers rarely know the gritty details of GPU pipeline saturation. </p>
-	    <p>Corporate policies often silo GPUs or limit concurrency.</p>
-      <p>That’s why <strong>0xDEADBEEF</strong> sorts GPU optimizations into three must-haves: <br> <em>Data locality</em>, <em>Pipeline saturation</em>, and <em>Kernel modification</em>.</p>
-      <p class="emphasis">Leveraging <strong>0x–DEADBEEF's suite</strong> (short: <span class="highlight">0x</span>)– <br> you can fully harness your GPU’s potential.</p>
-    </div>
-    <a href="#solution" class="next-section">View Our Solution</a>
-  </section>
-  
-  <section id="solution">
-    <img class="hero-logo" src="0xDB_logo_black_transparent.png" alt="0xDEADBEEF Suite Logo">
-    <div class="section-title">0x Suite Crushes <span class="highlight">Concurrency Slowdowns</span></div>
-    <div class="subtext">
-      <p><strong>0x Suite</strong> intercepts and optimizes low-level GPU calls—dynamically optimizing <br> memory allocation, compute scheduling, and synchronization. </p>
-	    <p> This minimizes idle time and pipeline stalls, eliminating the dreaded 10x penalty. </p>
-      <p class="emphasis">Traditional schedulers merely dispatch tasks, while <span class="highlight">0x Suite</span> <br> dives deep into hardware to deliver true concurrency.</p>
-    </div>
-    <a href="#nexter" class="next-section">Discover 0xNEXTER</a>
-  </section>
-  
-  <section id="nexter">
-    <div class="section-title">0xNEXTER: <br> Fine Tuning <span class="highlight">Memory &amp; Resources</span></div>
-    <div class="subtext">
-      <p><strong>0xNEXTER</strong> optimizes GPU concurrency by better scheduling <br> and dynamic resource reallocation to prevent idle cycles.</p>
-      <p class="emphasis">It integrates seamlessly with job schedulers so <br> each task gets just the right share of resources.</p>
-    </div>
-    <a href="#performance" class="next-section">View Performance</a>
-  </section>
-  
-  <section id="performance">
-    <style>
-      .spiced-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 1rem 0;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      }
-      .spiced-table thead th {
-        background: #dce7f3;
-        color: #262626;
-        padding: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-      }
-      .spiced-table tbody tr { transition: background 0.3s; }
-      .spiced-table tbody tr:nth-child(odd) { background: #f9f9f9; }
-      .spiced-table tbody tr:nth-child(even) { background: #f0f0f0; }
-      .spiced-table tbody tr:hover { background: #e0e7ee; }
-      .spiced-table td { padding: 0.75rem; }
-/* Dark Mode Mobile Menu Fix */
-.dark-mode nav {
-  background-color: #262626;
-  border-bottom-color: #444;
-}
-.dark-mode nav a {
-  color: #FFFFFF;
-}
-.dark-mode .menu-toggle {
-  color: #FFFFFF;
-}
 
-/* Minimal Toggle Switch */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 28px;
-  margin-left: 1rem;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
-}
-
-.slider::before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #007aff;
-}
-
-input:checked + .slider::before {
-  transform: translateX(22px);
-}
-
-/* Dark mode mobile menu fix */
-.dark-mode nav {
-  background-color: #262626;
-  border-bottom-color: #444;
-}
-
-.dark-mode nav a {
-  color: #FFFFFF;
-}
-
-    </style>
-    <div class="section-title">We Eliminate Concurrency Overheads &amp; Unlock Idle <span class="highlight">Time</span></div>
-    <div class="subtext">
-      <table class="spiced-table">
-        <thead>
-          <tr><th>Scenario</th><th>Time (s)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Without 0x</td><td>0.91</td></tr>
-          <tr><td>with 0x (Community Ver.)</td><td>0.82</td></tr>
-          <tr><td>with full 0xDEADBEEF's suite</td><td>0.78</td></tr>
-        </tbody>
-      </table>
-      <p>That’s up to <span class="highlight">16.6%</span> raw speedup.</p>
-      <p><strong>Training LLaMA:</strong> Yields 28.5%–67.5% faster completion with improved efficiency.</p>
-      <p class="emphasis"><strong>The Bottom Line:</strong> High GPU utilization translates into <span class="highlight">real efficiency</span>.</p>
-    </div>
-    <a href="#deep-tech" class="next-section">Explore Deep Tech</a>
-  </section>
-  
-  <section id="deep-tech">
-    <div class="section-title">GPUs Love a <span class="highlight">Goldilocks Load</span>: <br> Not Too Big, Not Too Small</div>
-    <div class="subtext">
-      <h3>GPU Thresholds &amp; Pipeline Quirks</h3>
-      <p>Many kernels run only a fraction of their potential instructions, limiting effective usage.</p>
-      <h3>AI Field &amp; Kernel Splicing</h3>
-      <p class="emphasis">Freed predicates and additional kernels require <br>  advanced techniques to manage.</p>
-    </div>
-    <a href="#overseer" class="next-section">Discover 0xOVERSEER</a>
-  </section>
-  
-  <section id="overseer">
-    <div class="section-title">0xOVERSEER: <br> Next-Generation <span class="highlight">Kernel Splicing</span></div>
-    <div class="subtext">
-      <p><strong>0xOVERSEER</strong> fuses and reconfigures GPU operations in real time for maximum throughput.</p>
-      <p class="emphasis">Manual kernel tuning is replaced by dynamic <br> reconfiguration for improved saturation.</p>
-    </div>
-    <a href="#faq" class="next-section">Read FAQ</a>
-  </section>
-  
-  <section id="faq">
-    <div class="section-title">FAQ on <span class="highlight">GPU Optimization</span></div>
-    <div class="subtext">
-      <details>
-        <summary>Why don’t GPUs operate efficiently by default?</summary>
-        <div class="faq-content">
-          <p>GPUs inherently do not operate in the most efficient way manner by design. They are engineered for a "shot gun" task execution approach [parallel computing] without visibility to the total amount of compute and memory resources required by a task(s) at its most demanding moments, nor are they built to adjust for their repetitive execution or to optimize on their own latencies for the presented operations and capabilities. </p> 
-		<p> This approach also leads to suboptimal pathways of execution by incurring latencies in the design architecture of the chips, where if the task was deployed in a different arrangement than it could have been executed more efficiently.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Do you integrate with job schedulers?</summary>
-        <div class="faq-content">
-          <p>Yes, we integrate with job schedulers. We first support Kubernetes.</p>
-        </div>
-      </details>
-      <details>
-        <summary>What’s the difference between 0xNEXTER and a plain scheduler?</summary>
-        <div class="faq-content">
-          <p>0xNEXTER does not schedule tasks. It enables optimizations in the kernel space that speed up GPU kernels execution; in short the optimizations reduce latency of arithmetic and memory operations. 0xNexter also enables various capabilities for granular resource management.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Any perks beyond speed?</summary>
-        <div class="faq-content">
-          <p>The solution enables the ability to manage thermal and power at the instruction level.</p>
-        </div>
-      </details>
-      <details>
-        <summary>I already see 100% SM occupancy. Why do I need 0x?</summary>
-        <div class="faq-content">
-          <p>High occupancy alone isn’t sufficient—true pipeline saturation drives efficiency. 0xNEXTER dynamically optimizes resource allocation to ensure tasks complete faster.</p>
-        </div>
-      </details>
-      <details>
-        <summary>Is MIG different from 0x's partitioning?</summary>
-        <div class="faq-content">
-          <p>MIG statically slices a GPU. In contrast, 0x allows dynamic reassignment of resources in real-time, and the ability to arbitrarily set compute resources and memory resources to tasks to craft the perfect compute environments for memory and compute bound tasks. This ensures optimal concurrency without rigid partitioning.</p>
-        </div>
-      </details>
-    </div>
-    <a href="#use-cases" class="next-section">Explore Use Cases</a>
-  </section>
-  
-  <section id="use-cases">
-    <style>
-      .spiced-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        margin: 1rem 0;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      }
-      .spiced-table thead th {
-        background: #dce7f3;
-        color: #262626;
-        padding: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-      }
-      .spiced-table tbody tr { transition: background 0.3s; }
-      .spiced-table tbody tr:nth-child(odd) { background: #f9f9f9; }
-      .spiced-table tbody tr:nth-child(even) { background: #f0f0f0; }
-      .spiced-table tbody tr:hover { background: #e0e7ee; }
-      .spiced-table td { padding: 0.75rem; }
-    </style>
-    <div class="section-title">Wherever GPUs Matter, <span class="highlight">0x</span> Thrives</div>
-    <div class="subtext">
-      <table class="spiced-table">
-        <thead>
-          <tr><th>Use Case</th><th>Details</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Machine Learning / AI</td><td>LLaMA training, large model concurrency, multi-tenant inference</td></tr>
-          <tr><td>Scientific Simulations</td><td>GROMACS, LAMMPS—heavy concurrency, big speedups</td></tr>
-          <tr><td>Financial Modeling</td><td>Real-time risk analysis, multiple concurrent queries</td></tr>
-          <tr><td>Data Analytics / Big Data</td><td>Matrix multiplications, ETL pipelines, concurrency optimization</td></tr>
-          <tr><td>Graphics &amp; Game Development</td><td>Real-time rendering tasks aligned with GPU pipelines</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <a href="#contact" class="next-section">Contact Us</a>
-  </section>
-  
-  <section id="contact">
-    <div class="section-title">Ready to Push Your GPU to the <span class="highlight">Limit</span>?</div>
-    <div class="subtext">
-      <p>Drop us a line, request a customized demo, or just say hello.</p>
-      <p>Email: <a href="mailto:anton@dead-beef.com">anton@dead-beef.com</a></p>
-    </div>
-  </section>
-  
-  <footer>
-    &copy; 2025 <strong>0xDEADBEEF</strong>. All rights reserved.
-  </footer>
-  
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // IntersectionObserver for active nav highlighting
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('header nav a');
-      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            const currentLink = document.querySelector(`header nav a[href="#${entry.target.id}"]`);
-            if (currentLink) currentLink.classList.add('active');
-          }
-        });
-      }, observerOptions);
-      sections.forEach(section => observer.observe(section));
-      
-      // Logo click: Scroll to top
-      const logo = document.querySelector('.company-info img');
-      logo.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-      
-      // Dark Mode Toggle
-      document.getElementById('theme-toggle').addEventListener('change', function() {
-  document.body.classList.toggle('dark-mode', this.checked);
-      });
-      
-	// Mobile menu toggle (ensure this exists)
-	document.querySelector('.menu-toggle').addEventListener('click', () => {
-  	document.querySelector('nav').classList.toggle('active');
-      });
-      
-      // Apply fade-in and smooth scroll for internal links (both header and section buttons)
-      document.querySelectorAll('header nav a, a.next-section').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const targetId = link.getAttribute('href');
-          const targetSection = document.querySelector(targetId);
-          
-          // Reset only the target section’s children opacity
-          const children = targetSection.children;
-          Array.from(children).forEach(child => {
-            child.style.opacity = 0;
-            child.style.transition = '';
-          });
-          
-          // Smooth scroll to target section
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-          
-          // After a delay, stagger the fade-in of the target section’s children
-          setTimeout(() => {
-            for (let i = 0; i < children.length; i++) {
-              children[i].style.transition = `opacity 0.8s ease-in-out ${i * 100}ms`;
-              children[i].style.opacity = 1;
-            }
-          }, 600);
-        });
-      });
-      
-      // Update progress bar on scroll
-      window.addEventListener('scroll', () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = (scrollTop / scrollHeight) * 100;
-        document.getElementById('progress-bar').style.height = scrollPercent + '%';
-      });
+  document.addEventListener("DOMContentLoaded", () => {
+    const hero = document.querySelector(".hero");
+    const infoDiv = document.getElementById("info");
+    if (!hero) {
+      console.error("Hero container not found!");
+      return;
+    }
+
+    // Log hero container size
+    console.log("Hero container size:", hero.clientWidth, hero.clientHeight);
+    infoDiv.textContent = `Hero size: ${hero.clientWidth} x ${hero.clientHeight}`;
+
+    // 1) Create renderer
+    const canvas = document.getElementById("three-canvas");
+    if (!canvas) {
+      console.error("Canvas not found!");
+      return;
+    }
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true
     });
+    // Black background
+    renderer.setClearColor(0x000000, 1);
+
+    // Set size to hero's dimension
+    renderer.setSize(hero.clientWidth, hero.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // 2) Scene & Camera
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      50,
+      hero.clientWidth / hero.clientHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 6;
+
+    // 3) Torus geometry, obviously 3D
+    const geometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
+    // bright pink so it stands out
+    const material = new THREE.MeshBasicMaterial({ color: 0xff00cc });
+    const torus = new THREE.Mesh(geometry, material);
+    scene.add(torus);
+
+    // 4) Animate
+    function animate() {
+      requestAnimationFrame(animate);
+      // rotate the torus
+      torus.rotation.x += 0.01;
+      torus.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // 5) On resize, adapt to new container
+    window.addEventListener("resize", () => {
+      console.log("Resizing hero to:", hero.clientWidth, hero.clientHeight);
+      infoDiv.textContent = `Hero size: ${hero.clientWidth} x ${hero.clientHeight}`;
+
+      renderer.setSize(hero.clientWidth, hero.clientHeight);
+      camera.aspect = hero.clientWidth / hero.clientHeight;
+      camera.updateProjectionMatrix();
+    });
+  });
   </script>
 </body>
 </html>
