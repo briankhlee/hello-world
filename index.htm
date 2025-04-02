@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <title>3D Model Viewer</title>
   <style>
-    body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; }
+    body, html { 
+      margin: 0; padding: 0; 
+      width: 100%; height: 100%; 
+      overflow: hidden; 
+      background-color: #000; /* Try changing this to #222 or #fff temporarily */
+    }
     canvas { display: block; }
   </style>
 </head>
@@ -17,7 +22,10 @@
 
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+    
+    const camera = new THREE.PerspectiveCamera(
+      70, window.innerWidth / window.innerHeight, 0.1, 1000
+    );
     camera.position.set(0, 2, 5);
     camera.lookAt(scene.position);
 
@@ -32,12 +40,27 @@
     controls.minDistance = 2;
     controls.maxDistance = 10;
 
-    // Use the raw GitHub URL for the GLB file
+    // Add an ambient light to illuminate the scene
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(ambientLight);
+
+    // Optionally, add a directional light for extra contrast
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(10, 10, 10);
+    scene.add(directionalLight);
+
+    // Load the 3D model from your hosted asset
     const loader = new GLTFLoader();
     loader.load(
-      'black_abstract.glb',
+      'https://raw.githubusercontent.com/briankhlee/hello-world/825c4cb154f9266e6cc53f29e94356499c5e596a/black_abstract.glb',
       (gltf) => {
-        scene.add(gltf.scene);
+        console.log('Model loaded:', gltf);
+        const model = gltf.scene;
+        // Adjust the model's scale/position if needed
+        model.position.set(0, 0, 0);
+        // For example, if the model is too small, scale it up:
+        // model.scale.set(2,2,2);
+        scene.add(model);
       },
       undefined,
       (error) => {
