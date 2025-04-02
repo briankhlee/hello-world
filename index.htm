@@ -32,13 +32,18 @@
     controls.minDistance = 2;
     controls.maxDistance = 10;
 
-    // Load a 3D model from your hosted assets
+    // Use the raw GitHub URL for the GLB file
     const loader = new GLTFLoader();
-    loader.load('https://github.com/briankhlee/hello-world/blob/825c4cb154f9266e6cc53f29e94356499c5e596a/black_abstract.glb', (gltf) => {
-      scene.add(gltf.scene);
-    }, undefined, (error) => {
-      console.error('An error happened while loading the model:', error);
-    });
+    loader.load(
+      'https://raw.githubusercontent.com/briankhlee/hello-world/825c4cb154f9266e6cc53f29e94356499c5e596a/black_abstract.glb',
+      (gltf) => {
+        scene.add(gltf.scene);
+      },
+      undefined,
+      (error) => {
+        console.error('An error happened while loading the model:', error);
+      }
+    );
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
