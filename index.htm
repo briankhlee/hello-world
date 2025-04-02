@@ -118,7 +118,8 @@
         1000                       // Far Clipping
       );
       camera.position.set(0, 2, 5);
-
+      camera.lookAt(scene.position);
+      
       // Create renderer
       renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
