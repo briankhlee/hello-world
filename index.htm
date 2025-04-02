@@ -3,81 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>3D Lead Generation Example</title>
-  <!-- Three.js & OrbitControls (from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
-  
   <style>
-    /* Reset margins, padding */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    /* Make the canvas take full screen behind the form */
-    body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      position: relative;
-    }
-
-    /* The 3D canvas container */
-    #three-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    /* Simple container for the form */
+    /* [Your existing CSS remains here] */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; overflow: hidden; font-family: Arial, sans-serif; position: relative; }
+    #three-canvas { width: 100%; height: 100%; display: block; }
     .lead-capture-container {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 300px;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      position: absolute; top: 20px; right: 20px; width: 300px;
+      background-color: rgba(255, 255, 255, 0.9); padding: 20px;
+      border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-    
-    .lead-capture-container h1 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .lead-capture-container input[type="text"],
-    .lead-capture-container input[type="email"] {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    
+    .lead-capture-container h1 { font-size: 18px; margin-bottom: 10px; }
+    .lead-capture-container input { width: 100%; margin-bottom: 10px; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px; }
     .lead-capture-container button {
-      width: 100%;
-      padding: 12px;
-      font-size: 14px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      background-color: #007BFF;
-      color: #fff;
+      width: 100%; padding: 12px; font-size: 14px; border: none;
+      border-radius: 4px; cursor: pointer; background-color: #007BFF; color: #fff;
     }
-    
-    .lead-capture-container button:hover {
-      opacity: 0.9;
-    }
-    
-    .thank-you-message {
-      margin-top: 10px;
-      color: green;
-      display: none; /* Hidden until we submit */
-    }
+    .lead-capture-container button:hover { opacity: 0.9; }
+    .thank-you-message { margin-top: 10px; color: green; display: none; }
   </style>
 </head>
 <body>
@@ -96,7 +39,11 @@
   <!-- 3D Canvas -->
   <canvas id="three-canvas"></canvas>
   
-  <script>
+  <!-- Using ES6 modules -->
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/controls/OrbitControls.js';
+
     // Grab HTML elements
     const canvas = document.getElementById('three-canvas');
     const submitBtn = document.getElementById('submitBtn');
@@ -112,14 +59,11 @@
 
       // Create a camera
       camera = new THREE.PerspectiveCamera(
-        70,                        // Field of View
-        window.innerWidth / window.innerHeight, // Aspect Ratio
-        0.1,                       // Near Clipping
-        1000                       // Far Clipping
+        70, window.innerWidth / window.innerHeight, 0.1, 1000
       );
       camera.position.set(0, 2, 5);
-      camera.lookAt(scene.position);
-      
+      camera.lookAt(scene.position); // Ensure camera is pointed at the scene
+
       // Create renderer
       renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -131,24 +75,22 @@
       cube = new THREE.Mesh(geometry, material);
       scene.add(cube);
 
-      // Set up lights (optional)
+      // Optional lights
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
       directionalLight.position.set(10, 10, 10);
       scene.add(directionalLight);
 
-      // Add Orbit Controls for interaction
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      // Set up OrbitControls
+      controls = new OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
       controls.enablePan = false;
       controls.minDistance = 2;
       controls.maxDistance = 10;
 
-      // Handle window resize
       window.addEventListener('resize', onWindowResize, false);
-
       animate();
     }
 
@@ -160,11 +102,8 @@
 
     function animate() {
       requestAnimationFrame(animate);
-
-      // Rotate the cube for some motion
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
-
       controls.update();
       renderer.render(scene, camera);
     }
@@ -179,16 +118,12 @@
         return;
       }
 
-      // Here you would typically send data to your backend
-      // For demo, we just show a thank you message
+      // Simulate form submission
       thankYouMessage.style.display = 'block';
-      
-      // Reset the fields after submission
       nameField.value = '';
       emailField.value = '';
     });
 
-    // Initialize the scene
     init();
   </script>
 </body>
