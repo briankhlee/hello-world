@@ -2,154 +2,193 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Furiosa – Futuristic Interactive Three.js">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Furiosa: Futuristic 3D Interaction</title>
-
+  <title>3D Lead Generation Example</title>
+  <!-- Three.js & OrbitControls (from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/controls/OrbitControls.js"></script>
+  
   <style>
-    /* Minimal reset */
+    /* Reset margins, padding */
     * {
-      margin: 0; 
-      padding: 0; 
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
-    html, body {
+
+    /* Make the canvas take full screen behind the form */
+    body, html {
       width: 100%;
       height: 100%;
-      background: #000; /* fallback black background */
-      font-family: sans-serif;
-      overflow: hidden;  /* no horizontal scroll, full screen */
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      position: relative;
     }
 
-    /* Full-screen container for the 3D scene */
-    #hero {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background: #000;
-    }
-    /* The overlayed info text to see debug */
-    #info {
-      position: absolute;
-      top: 1rem; 
-      left: 1rem;
-      color: #fff;
-      z-index: 10;
-      font-size: 1rem;
-      pointer-events: none;
-    }
-    /* Our Three.js canvas */
-    canvas {
-      position: absolute;
-      top: 0; 
-      left: 0;
+    /* The 3D canvas container */
+    #three-canvas {
       width: 100%;
       height: 100%;
       display: block;
-      z-index: -1; /* behind the text */
+    }
+
+    /* Simple container for the form */
+    .lead-capture-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 300px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    
+    .lead-capture-container h1 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .lead-capture-container input[type="text"],
+    .lead-capture-container input[type="email"] {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .lead-capture-container button {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: #fff;
+    }
+    
+    .lead-capture-container button:hover {
+      opacity: 0.9;
+    }
+    
+    .thank-you-message {
+      margin-top: 10px;
+      color: green;
+      display: none; /* Hidden until we submit */
     }
   </style>
 </head>
 <body>
-
-<div id="hero">
-  <div id="info">Furiosa Interactive • Move your mouse or tilt your device</div>
+  
+  <!-- Lead Capture Form -->
+  <div class="lead-capture-container">
+    <h1>Join Our Mailing List</h1>
+    <input type="text" id="nameField" placeholder="Your Name" required>
+    <input type="email" id="emailField" placeholder="Your Email" required>
+    <button id="submitBtn">Sign Me Up!</button>
+    <div class="thank-you-message" id="thankYouMessage">
+      Thank you for signing up!
+    </div>
+  </div>
+  
+  <!-- 3D Canvas -->
   <canvas id="three-canvas"></canvas>
-</div>
+  
+  <script>
+    // Grab HTML elements
+    const canvas = document.getElementById('three-canvas');
+    const submitBtn = document.getElementById('submitBtn');
+    const thankYouMessage = document.getElementById('thankYouMessage');
+    const nameField = document.getElementById('nameField');
+    const emailField = document.getElementById('emailField');
 
-<!-- ES Modules from a matching version of Three.js -->
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.128/build/three.module.js";
+    // Basic Three.js setup
+    let scene, camera, renderer, cube, controls;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const hero = document.getElementById("hero");
-  const infoDiv = document.getElementById("info");
-  const canvas = document.getElementById("three-canvas");
+    function init() {
+      scene = new THREE.Scene();
 
-  // Log container size for debugging
-  console.log("Hero container size:", hero.clientWidth, hero.clientHeight);
-  infoDiv.textContent += ` | Size: ${hero.clientWidth}x${hero.clientHeight}`;
+      // Create a camera
+      camera = new THREE.PerspectiveCamera(
+        70,                        // Field of View
+        window.innerWidth / window.innerHeight, // Aspect Ratio
+        0.1,                       // Near Clipping
+        1000                       // Far Clipping
+      );
+      camera.position.set(0, 2, 5);
 
-  // 1) CREATE RENDERER
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-  renderer.setClearColor(0x000000, 1); // black background
-  renderer.setSize(hero.clientWidth, hero.clientHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
+      // Create renderer
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
 
-  // 2) CREATE SCENE & CAMERA
-  const scene = new THREE.Scene();
-  // A perspective camera
-  const camera = new THREE.PerspectiveCamera(60, hero.clientWidth / hero.clientHeight, 0.1, 1000);
-  camera.position.z = 10;
+      // Add a simple cube
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const material = new THREE.MeshNormalMaterial();
+      cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
 
-  // 3) LIGHTS (for StandardMaterial) 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-  scene.add(ambient);
-  const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-  dirLight.position.set(2, 5, 3);
-  scene.add(dirLight);
+      // Set up lights (optional)
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      directionalLight.position.set(10, 10, 10);
+      scene.add(directionalLight);
 
-  // 4) GEOMETRY: a bright, futuristic torus
-  const geometry = new THREE.TorusKnotGeometry(2, 0.6, 150, 16);
-  const material = new THREE.MeshStandardMaterial({ 
-    color: 0xff44aa,
-    metalness: 0.6,
-    roughness: 0.2,
-    emissive: 0x110011
-  });
-  const torusKnot = new THREE.Mesh(geometry, material);
-  scene.add(torusKnot);
+      // Add Orbit Controls for interaction
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.enablePan = false;
+      controls.minDistance = 2;
+      controls.maxDistance = 10;
 
-  // TRACK MOUSE OR DEVICE ORIENTATION
-  let mouseX = 0, mouseY = 0;      // for desktop
-  let tiltBeta = 0, tiltGamma = 0; // for mobile device orientation
+      // Handle window resize
+      window.addEventListener('resize', onWindowResize, false);
 
-  // --- Desktop mouse move
-  document.addEventListener("mousemove", (e) => {
-    mouseX = (e.clientX - hero.clientWidth / 2) * 0.004; 
-    mouseY = (e.clientY - hero.clientHeight / 2) * 0.004;
-  });
+      animate();
+    }
 
-  // --- Device orientation (mobile)
-  // requires https + user permission in many browsers
-  function handleOrientation(event) {
-    // gamma ~ left/right tilt, beta ~ front/back tilt
-    tiltGamma = event.gamma; // range -90..90
-    tiltBeta = event.beta;   // range  0..180
-  }
-  window.addEventListener("deviceorientation", handleOrientation);
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
 
-  // animate
-  function animate() {
-    requestAnimationFrame(animate);
+    function animate() {
+      requestAnimationFrame(animate);
 
-    // a baseline rotation to keep it dynamic
-    torusKnot.rotation.x += 0.002; 
-    torusKnot.rotation.y += 0.003;
+      // Rotate the cube for some motion
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
 
-    // Use mouse or orientation to add extra rotation
-    // e.g. rotate around x/y based on mouse or tilt
-    // blend them so it works on both desktop & mobile
-    const rotateX = mouseY + ((tiltBeta - 90) * 0.005);
-    const rotateY = mouseX + (tiltGamma * 0.005);
+      controls.update();
+      renderer.render(scene, camera);
+    }
 
-    torusKnot.rotation.x += rotateX * 0.01;
-    torusKnot.rotation.y += rotateY * 0.01;
+    // Form submission event
+    submitBtn.addEventListener('click', function() {
+      const nameValue = nameField.value.trim();
+      const emailValue = emailField.value.trim();
 
-    renderer.render(scene, camera);
-  }
-  animate();
+      if (!nameValue || !emailValue) {
+        alert('Please fill in both Name and Email');
+        return;
+      }
 
-  // On resize
-  window.addEventListener("resize", () => {
-    const w = hero.clientWidth, h = hero.clientHeight;
-    console.log("Resizing to:", w, h);
-    infoDiv.textContent = `Furiosa Interactive | Size: ${w}x${h}`;
-    renderer.setSize(w, h);
-    camera.aspect = w/h;
-    camera.updateProjectionMatrix();
-  });
-});
-</script>
+      // Here you would typically send data to your backend
+      // For demo, we just show a thank you message
+      thankYouMessage.style.display = 'block';
+      
+      // Reset the fields after submission
+      nameField.value = '';
+      emailField.value = '';
+    });
+
+    // Initialize the scene
+    init();
+  </script>
 </body>
 </html>
